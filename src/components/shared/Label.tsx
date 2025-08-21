@@ -1,6 +1,4 @@
-import type { LabelHTMLAttributes } from "react";
-
-interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
+interface Props extends React.LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
 }
 

@@ -7,13 +7,14 @@ import {
   InputNumber,
   Label,
   NumberStepper,
+  OptionButtons,
   ProgressBar,
   SettingCircleButton,
   Tabs,
   TextArea,
   TextButton,
 } from "@components/shared";
-import { Plus, Search, User } from "lucide-react";
+import { Cake, Moon, Plus, Search, Sun, User } from "lucide-react";
 import { useState } from "react";
 import Input from "./Input";
 
@@ -102,6 +103,46 @@ const Sample = () => {
         value={textValue}
         onChange={(e) => setTextValue(e.target.value)}
         maxLength={100}
+      />
+      <OptionButtons
+        items={[
+          {
+            label: "아침",
+            onClick: () => {},
+            active: true,
+            icons: {
+              default: <Sun size={24} color="gray" />,
+              active: <Sun size={24} className="text-blue-500" />,
+            },
+          },
+          {
+            label: "점심",
+            onClick: () => {},
+            active: false,
+            icons: {
+              default: <Sun size={24} color="gray" />,
+              active: <Sun size={24} className="text-blue-500" />,
+            },
+          },
+          {
+            label: "저녁",
+            onClick: () => {},
+            active: false,
+            icons: {
+              default: <Moon size={24} color="gray" />,
+              active: <Moon size={24} className="text-blue-500" />,
+            },
+          },
+          {
+            label: "간식",
+            onClick: () => {},
+            active: false,
+            icons: {
+              default: <Cake size={24} color="gray" />,
+              active: <Cake size={24} className="text-blue-500" />,
+            },
+          },
+        ]}
       />
     </div>
   );
