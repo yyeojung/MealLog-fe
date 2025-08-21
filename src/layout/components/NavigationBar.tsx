@@ -41,7 +41,7 @@ const NavigationBar = () => {
               className={({ isActive }) =>
                 clsx(
                   "flex cursor-pointer flex-col items-center py-2 text-xs font-medium",
-                  isActive ? "text-gray-500" : "text-blue-600",
+                  isActive ? "text-blue-600" : "text-gray-500",
                 )
               }
             >
