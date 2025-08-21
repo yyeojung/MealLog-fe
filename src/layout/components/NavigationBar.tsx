@@ -6,25 +6,25 @@ const NavigationBar = () => {
   const navigation = [
     {
       name: "홈",
-      href: PATHS.HOME,
+      href: PATHS.HOME.path,
       icon: "home-line.svg",
       activeIcon: "home-fill.svg",
     },
     {
       name: "상세",
-      href: PATHS.DETAIL,
+      href: PATHS.DETAIL.path,
       icon: "bar-chart-line.svg",
       activeIcon: "bar-chart-fill.svg",
     },
     {
       name: "커뮤니티",
-      href: PATHS.COMMUNITY,
+      href: PATHS.COMMUNITY.path,
       icon: "team-line.svg",
       activeIcon: "team-fill.svg",
     },
     {
       name: "My",
-      href: PATHS.MYPAGE,
+      href: PATHS.MYPAGE.path,
       icon: "user-line.svg",
       activeIcon: "user-fill.svg",
     },
