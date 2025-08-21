@@ -17,7 +17,7 @@ const TextArea = ({ className, value, maxLength, ...props }: Props) => {
         value={value}
       ></textarea>
       {maxLength && (
-        <div className="mt-2 text-right text-xs text-gray-500">
+        <div className="text-right text-xs text-gray-500">
           {VALUE_LENGTH}/{maxLength}
         </div>
       )}

@@ -3,6 +3,7 @@ export { default as Avatar } from "./Avatar";
 export { default as Badge } from "./Badge";
 export { default as Button } from "./Button";
 export { default as CircleButton } from "./CircleButton";
+export { default as ContentCard } from "./ContentCard";
 export { default as ErrorText } from "./ErrorText";
 export { default as GradationBadge } from "./GradationBadge";
 export { default as Input } from "./Input";

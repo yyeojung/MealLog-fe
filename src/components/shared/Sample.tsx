@@ -3,6 +3,7 @@ import {
   Avatar,
   Badge,
   Button,
+  ContentCard,
   GradationBadge,
   InputNumber,
   Label,
@@ -88,62 +89,90 @@ const Sample = () => {
         </Avatar>
       </div>
       <Input placeholder="이름을 입력해주세요." suffix={<Search size={16} color="gray" />} />
-      <InputNumber
-        value={numValue}
-        setValue={setNumValue}
-        suffix={"kcal"}
-        options={{ min: 1, max: 1000, showErrorMessage: true }}
+
+      <ContentCard
+        color="transparent"
+        heading={
+          <>
+            <Label required htmlFor="content">
+              칼로리
+            </Label>
+            <TextButton>
+              <Plus color="blue" size={16} /> 검색으로 찾기
+            </TextButton>
+          </>
+        }
+        contents={
+          <InputNumber
+            value={numValue}
+            setValue={setNumValue}
+            suffix={"kcal"}
+            options={{ min: 1, max: 1000, showErrorMessage: true }}
+          />
+        }
       />
-      <Label required htmlFor="content">
-        내용
-      </Label>
-      <TextArea
-        id="content"
-        placeholder="내용을 입력해주세요."
-        value={textValue}
-        onChange={(e) => setTextValue(e.target.value)}
-        maxLength={100}
-      />
-      <OptionButtons
-        items={[
-          {
-            label: "아침",
-            onClick: () => {},
-            active: true,
-            icons: {
-              default: <Sun size={24} color="gray" />,
-              active: <Sun size={24} className="text-blue-500" />,
+
+      <ContentCard color="transparent">
+        <Label required htmlFor="content">
+          내용
+        </Label>
+        <TextArea
+          id="content"
+          placeholder="내용을 입력해주세요."
+          value={textValue}
+          onChange={(e) => setTextValue(e.target.value)}
+          maxLength={100}
+        />
+      </ContentCard>
+
+      <ContentCard
+        heading={
+          <Label required htmlFor="content">
+            식사분류
+          </Label>
+        }
+      >
+        <OptionButtons
+          items={[
+            {
+              label: "아침",
+              onClick: () => {},
+              active: true,
+              icons: {
+                default: <Sun size={24} color="gray" />,
+                active: <Sun size={24} className="text-blue-500" />,
+              },
             },
-          },
-          {
-            label: "점심",
-            onClick: () => {},
-            active: false,
-            icons: {
-              default: <Sun size={24} color="gray" />,
-              active: <Sun size={24} className="text-blue-500" />,
+            {
+              label: "점심",
+              onClick: () => {},
+              active: false,
+              icons: {
+                default: <Sun size={24} color="gray" />,
+                active: <Sun size={24} className="text-blue-500" />,
+              },
             },
-          },
-          {
-            label: "저녁",
-            onClick: () => {},
-            active: false,
-            icons: {
-              default: <Moon size={24} color="gray" />,
-              active: <Moon size={24} className="text-blue-500" />,
+            {
+              label: "저녁",
+              onClick: () => {},
+              active: false,
+              icons: {
+                default: <Moon size={24} color="gray" />,
+                active: <Moon size={24} className="text-blue-500" />,
+              },
             },
-          },
-          {
-            label: "간식",
-            onClick: () => {},
-            active: false,
-            icons: {
-              default: <Cake size={24} color="gray" />,
-              active: <Cake size={24} className="text-blue-500" />,
+            {
+              label: "간식",
+              onClick: () => {},
+              active: false,
+              icons: {
+                default: <Cake size={24} color="gray" />,
+                active: <Cake size={24} className="text-blue-500" />,
+              },
             },
-          },
-        ]}
-      />
+          ]}
+        />
+      </ContentCard>
     </div>
   );
 };
