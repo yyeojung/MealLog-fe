@@ -17,7 +17,8 @@ const Button = ({ children, type = "button", className, size = "m", color = "gra
   );
 };
 
-const commonStyles = "w-full cursor-pointer whitespace-nowrap transition-all duration-200";
+const commonStyles =
+  "inline-flex items-center justify-center gap-2 w-full cursor-pointer whitespace-nowrap transition-all duration-200 cursor-pointer";
 
 const colorStyles = {
   gradation: "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
