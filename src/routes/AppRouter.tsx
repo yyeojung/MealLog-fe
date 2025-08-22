@@ -5,6 +5,7 @@ import Sample from "../components/shared/Sample";
 import Detail from "@/page/detail/Detail";
 import Community from "@/page/community/Community";
 import MyPage from "@/page/myPage/MyPage";
+import RegisterMeal from "@/page/register-meal/RegisterMeal";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
       <Route path={PATHS.DETAIL.path} element={<Detail />} />
       <Route path={PATHS.COMMUNITY.path} element={<Community />} />
       <Route path={PATHS.MYPAGE.path} element={<MyPage />} />
+      <Route path={PATHS.REGISTERMEAL.path} element={<RegisterMeal />} />
       <Route path={PATHS.COMPONENTS.path} element={<Sample />} />
     </Routes>
   );

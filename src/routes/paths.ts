@@ -3,6 +3,10 @@ const PATHS = {
     path: "/",
     title: "홈",
   },
+  REGISTERMEAL: {
+    path: "/register-meal",
+    title: "식단 추가",
+  },
   DETAIL: {
     path: "/detail",
     title: "상세 분석",
