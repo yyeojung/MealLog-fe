@@ -47,7 +47,7 @@ const HomeDaily = () => {
             className="flex cursor-pointer items-center gap-1 rounded-lg px-3 py-1 text-sm whitespace-nowrap text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
             to={PATHS.REGISTERMEAL.path}
           >
-            <Plus width={18} height={18} />
+            <Plus size={16} />
             식단 추가
           </Link>
         </div>
