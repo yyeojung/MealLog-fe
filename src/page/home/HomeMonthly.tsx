@@ -1,5 +1,7 @@
+import Calendar from "./components/Calendar";
+
 const HomeMonthly = () => {
-  return <div>HomeMonthly</div>;
+  return <Calendar className="mt-6" />;
 };
 
 export default HomeMonthly;
