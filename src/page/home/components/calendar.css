@@ -1,0 +1,83 @@
+.react-calendar{
+  width: 100%; 
+  border: none; 
+}
+.react-calendar__navigation {
+  margin-bottom: 1.25rem !important;
+}
+.react-calendar__navigation__arrow {
+  border-radius: 50%;
+}
+.react-calendar__navigation__arrow:hover {
+  background-color: #f3f4f6 !important; 
+}
+.react-calendar__navigation__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.react-calendar__navigation__label:hover {
+  background-color: transparent !important;
+}
+.react-calendar__navigation__label span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.react-calendar__navigation__label:hover span {
+  background-color: #f3f4f6;
+}
+.react-calendar__month-view__days__day {
+  height: 2.75rem;
+}
+.react-calendar__month-view__weekdays > div:first-child {
+  color: #ef4444;
+}
+.react-calendar__month-view__weekdays > div:last-child {
+  color: #3b82f6;
+}
+.react-calendar__month-view__weekdays__weekday {  
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+.react-calendar__month-view__weekdays__weekday abbr {  
+  text-decoration: none;
+  font-weight: 500;
+}
+.react-calendar__month-view__days__day--weekend {
+  color: #000;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #d1d5db;
+}
+.react-calendar__month-view__days__day {
+  height: 3.2rem;
+  border-radius: .75rem;
+}
+.react-calendar__month-view__days__day:not(.react-calendar__tile--active):hover {
+  background-color: #dbeafe !important;
+}
+.react-calendar__tile--active {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  background-image: linear-gradient(to bottom right, #3b82f6 , #9333ea);
+  border-radius: .75rem;
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  color:#fff;
+  font-weight: 500;  
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+.react-calendar__tile--active:hover {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  background-image: linear-gradient(to bottom right, #3b82f6 , #9333ea) !important;
+}
+
