@@ -7,15 +7,18 @@ import PATHS from "@/routes/paths";
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
 
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === PATHS.HOME.path;
+  const isLogin = location.pathname === PATHS.LOGIN.path;
+  const isSetup = location.pathname === PATHS.SETUP.path;
+
   const currentPathInfo = Object.values(PATHS).find((item) => item.path === location.pathname);
 
   const headerTitle = currentPathInfo?.title;
   return (
     <div className="mx-auto min-h-screen max-w-md bg-gradient-to-br from-blue-50 to-indigo-100 pb-20">
-      {!isHome && <Header title={headerTitle} />}
+      {!isHome && !isLogin && !isSetup && <Header title={headerTitle} />}
       {children}
-      <NavigationBar />
+      {!isLogin && !isSetup && <NavigationBar />}
     </div>
   );
 };
