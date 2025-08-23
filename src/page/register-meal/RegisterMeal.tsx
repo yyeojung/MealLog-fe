@@ -1,5 +1,5 @@
-import { Cake, Moon, Search, Sun, Sunrise } from "lucide-react";
-import { ContentCard, Input, Label, OptionButtons } from "@/components/shared";
+import { Cake, Moon, Save, Search, Sun, Sunrise } from "lucide-react";
+import { Button, ContentCard, Input, Label, OptionButtons } from "@/components/shared";
 import { useState } from "react";
 
 const RegisterMeal = () => {
@@ -70,6 +70,10 @@ const RegisterMeal = () => {
         ></textarea>
         <div className="mt-2 text-right text-xs text-gray-500">0/500</div>
       </div>
+      <Button className="mt-6" size="m">
+        <Save color="white" size={20} />
+        식단 저장하기
+      </Button>
     </div>
   );
 };
