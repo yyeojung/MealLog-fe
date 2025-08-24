@@ -1,6 +1,9 @@
 import { Button } from "@/components/shared";
+import { useNavigate } from "react-router-dom";
+import PATHS from "@/routes/paths";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <section className="flex h-screen w-full flex-col bg-white p-6">
       <hgroup className="flex flex-4 flex-col items-center justify-center gap-6 text-center">
@@ -19,7 +22,12 @@ const Login = () => {
       </hgroup>
 
       <div className="flex flex-1 flex-col gap-4">
-        <Button color="black">
+        <Button
+          color="black"
+          onClick={() => {
+            navigate(PATHS.SETUP.path);
+          }}
+        >
           <img src="/image/sns-google.png" alt="google" className="h-6 w-6 rounded-2xl bg-white" />
           Google로 시작하기
         </Button>
