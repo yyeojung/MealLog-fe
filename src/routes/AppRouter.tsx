@@ -7,12 +7,14 @@ import Community from "@/page/community/Community";
 import MyPage from "@/page/myPage/MyPage";
 import RegisterMeal from "@/page/register-meal/RegisterMeal";
 import Login from "@/page/login/Login";
+import Setup from "@/page/setup/Setup";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path={PATHS.LOGIN.path} element={<Login />} />
+      <Route path={PATHS.SETUP.path} element={<Setup />} />
       <Route path={PATHS.DETAIL.path} element={<Detail />} />
       <Route path={PATHS.COMMUNITY.path} element={<Community />} />
       <Route path={PATHS.MYPAGE.path} element={<MyPage />} />
