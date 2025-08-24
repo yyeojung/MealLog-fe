@@ -1,11 +1,15 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ title }: { title?: string }) => {
+const Header = ({ title, backPath }: { title?: string; backPath?: string }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1);
+    if (backPath) {
+      navigate(backPath);
+    } else {
+      navigate(-1);
+    }
   };
   return (
     <div className="border-b border-white/20 bg-white/90 px-6 py-4 backdrop-blur-sm">

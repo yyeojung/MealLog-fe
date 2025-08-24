@@ -11,6 +11,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
   const isHome = location.pathname === PATHS.HOME.path;
   const isLogin = location.pathname === PATHS.LOGIN.path;
   const isSetup = location.pathname === PATHS.SETUP.path;
+  const isLogMeal = location.pathname === PATHS.LOGMEAL.path;
 
   const currentPathInfo = Object.values(PATHS).find((item) => item.path === location.pathname);
 
@@ -22,7 +23,9 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
         !isLogin && !isSetup && "pb-20",
       )}
     >
-      {!isHome && !isLogin && !isSetup && <Header title={headerTitle} />}
+      {!isHome && !isLogin && !isSetup && (
+        <Header title={headerTitle} backPath={isLogMeal ? PATHS.HOME.path : undefined} />
+      )}
       {children}
       {!isLogin && !isSetup && <NavigationBar />}
     </div>
