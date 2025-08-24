@@ -18,6 +18,7 @@ const OptionButtons = ({ items, className, ...props }: Props) => {
       {items.map((item) => (
         <button
           key={item.label}
+          type="button"
           onClick={item.onClick}
           className={clsx(
             "cursor-pointer rounded-xl border-2 p-4 whitespace-nowrap transition-all duration-200",
