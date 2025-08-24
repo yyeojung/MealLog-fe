@@ -3,6 +3,7 @@ import NavigationBar from "./components/NavigationBar";
 import { useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import PATHS from "@/routes/paths";
+import clsx from "clsx";
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
@@ -15,7 +16,12 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 
   const headerTitle = currentPathInfo?.title;
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-gradient-to-br from-blue-50 to-indigo-100 pb-20">
+    <div
+      className={clsx(
+        "mx-auto min-h-screen max-w-md bg-gradient-to-br from-blue-50 to-indigo-100",
+        !isLogin && !isSetup && "pb-20",
+      )}
+    >
       {!isHome && !isLogin && !isSetup && <Header title={headerTitle} />}
       {children}
       {!isLogin && !isSetup && <NavigationBar />}
