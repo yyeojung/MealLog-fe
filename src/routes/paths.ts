@@ -11,6 +11,10 @@ const PATHS = {
     path: "/setup",
     title: "정보 입력",
   },
+  LOGMEAL: {
+    path: "/log-meal",
+    title: "식단 기록",
+  },
   REGISTERMEAL: {
     path: "/register-meal",
     title: "식단 추가",

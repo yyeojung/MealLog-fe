@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PATHS from "@/routes/paths";
 import ReactCalendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./calendar.css";
@@ -7,6 +9,7 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 const Calendar = ({ className }: { className?: string }) => {
+  const navigate = useNavigate();
   const [value, onChange] = useState<Value>(new Date());
   console.log(value);
 
@@ -21,6 +24,7 @@ const Calendar = ({ className }: { className?: string }) => {
       next2Label={null}
       formatDay={(_, date) => date.getDate().toString()}
       showFixedNumberOfWeeks={true}
+      onClickDay={() => navigate(`${PATHS.LOGMEAL.path}?tab=전체`)}
     />
   );
 };

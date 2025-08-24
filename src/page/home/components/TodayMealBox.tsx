@@ -1,3 +1,4 @@
+import PATHS from "@/routes/paths";
 import clsx from "clsx";
 import { Moon, SunMedium, Sunrise } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -13,7 +14,7 @@ const TodayMealBox = ({ items, className, ...props }: Props) => {
   return (
     <div className={`grid grid-cols-3 gap-3 ${className}`} {...props}>
       {items.map((item) => (
-        <Link key={item.label} className={className} to="/">
+        <Link key={item.label} className={className} to={`${PATHS.LOGMEAL.path}?tab=${item.label}`}>
           <div className="cursor-pointer rounded-xl border border-white/20 bg-white/90 p-4 shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105">
             <div className="text-center">
               <div
