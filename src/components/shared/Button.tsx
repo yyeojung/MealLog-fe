@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "s" | "m";
-  color?: "gradation" | "white";
+  color?: "gradation" | "white" | "black";
 }
 
 const Button = ({ children, type = "button", className, size = "m", color = "gradation", ...props }: Props) => {
@@ -23,6 +23,7 @@ const commonStyles =
 const colorStyles = {
   gradation: "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
   white: "bg-white text-black",
+  black: "bg-black text-white",
 };
 
 const sizeStyles = {

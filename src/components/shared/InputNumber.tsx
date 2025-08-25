@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Input } from ".";
 import type { InputProps } from "./Input";
 
+export type InputNumberValueType = number | "";
 interface Props extends InputProps {
-  value: number;
-  setValue: (value: number) => void;
+  value: InputNumberValueType;
+  setValue: (value: InputNumberValueType) => void;
   options?: {
     min?: number;
     max?: number;
@@ -12,22 +13,34 @@ interface Props extends InputProps {
   };
 }
 
-const InputNumber = ({ value, setValue, suffix, options, ...props }: Props) => {
+const InputNumber = ({ value, setValue, suffix, options = {}, ...props }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
 
+  const mergedOptions = {
+    showErrorMessage: true,
+    ...options,
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
     setErrorMessage("");
 
-    if (options?.min && value < options.min) {
-      setErrorMessage(`최소값은 ${options.min} 이상입니다.`);
+    if (e.target.value === "") {
+      setValue("");
+      return;
     }
 
-    if (options?.max && value > options.max) {
-      setErrorMessage(`최대값은 ${options.max} 이하입니다.`);
+    const value = Number(e.target.value);
+
+    console.log(mergedOptions, value);
+    if (mergedOptions?.min && value < mergedOptions.min) {
+      setErrorMessage(`최소값은 ${mergedOptions.min} 이상입니다.`);
     }
 
-    if (options?.max && value.toString().length > options.max.toString().length) {
+    if (mergedOptions?.max && value > mergedOptions.max) {
+      setErrorMessage(`최대값은 ${mergedOptions.max} 이하입니다.`);
+    }
+
+    if (mergedOptions?.max && value.toString().length > mergedOptions.max.toString().length) {
       return;
     }
 
@@ -36,7 +49,6 @@ const InputNumber = ({ value, setValue, suffix, options, ...props }: Props) => {
     }
 
     if (isNaN(value)) {
-      setErrorMessage("숫자를 입력해주세요.");
       return;
     }
 
@@ -48,7 +60,7 @@ const InputNumber = ({ value, setValue, suffix, options, ...props }: Props) => {
       value={value}
       onChange={handleChange}
       suffix={suffix}
-      errorMessage={options?.showErrorMessage ? errorMessage : ""}
+      errorMessage={mergedOptions.showErrorMessage ? errorMessage : ""}
       {...props}
     />
   );

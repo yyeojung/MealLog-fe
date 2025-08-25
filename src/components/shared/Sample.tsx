@@ -18,9 +18,11 @@ import {
 import { Cake, Moon, Plus, Search, Sun, User } from "lucide-react";
 import { useState } from "react";
 import Input from "./Input";
+import type { InputNumberValueType } from "./InputNumber";
 
 const Sample = () => {
-  const [numValue, setNumValue] = useState<number>(1);
+  const [num, setNum] = useState<number>(1);
+  const [numValue, setNumValue] = useState<InputNumberValueType>(1);
   const [textValue, setTextValue] = useState<string>("");
 
   return (
@@ -42,10 +44,10 @@ const Sample = () => {
       </div>
 
       <NumberStepper
-        key={numValue}
-        value={numValue}
-        onPlus={() => setNumValue((prev) => prev + 1)}
-        onMinus={() => setNumValue((prev) => prev - 1)}
+        key={num}
+        value={num}
+        onPlus={() => setNum((prev) => prev + 1)}
+        onMinus={() => setNum((prev) => prev - 1)}
         options={{
           min: 4,
           max: 1,

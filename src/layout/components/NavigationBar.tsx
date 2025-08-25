@@ -1,30 +1,37 @@
 import PATHS from "@/routes/paths";
 import clsx from "clsx";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const NavigationBar = () => {
+  const location = useLocation();
+  const isPathsActive = (paths: string[]) => paths.some((path) => path === location.pathname);
+
   const navigation = [
     {
       name: "홈",
       href: PATHS.HOME.path,
+      paths: [PATHS.HOME.path, PATHS.LOGMEAL.path, PATHS.REGISTERMEAL.path],
       icon: "home-line.svg",
       activeIcon: "home-fill.svg",
     },
     {
       name: "상세",
       href: PATHS.DETAIL.path,
+      paths: [PATHS.DETAIL.path],
       icon: "bar-chart-line.svg",
       activeIcon: "bar-chart-fill.svg",
     },
     {
       name: "커뮤니티",
       href: PATHS.COMMUNITY.path,
+      paths: [PATHS.COMMUNITY.path],
       icon: "team-line.svg",
       activeIcon: "team-fill.svg",
     },
     {
       name: "My",
       href: PATHS.MYPAGE.path,
+      paths: [PATHS.MYPAGE.path],
       icon: "user-line.svg",
       activeIcon: "user-fill.svg",
     },
@@ -41,7 +48,7 @@ const NavigationBar = () => {
               className={({ isActive }) =>
                 clsx(
                   "flex cursor-pointer flex-col items-center py-2 text-xs font-medium",
-                  isActive ? "text-blue-600" : "text-gray-500",
+                  isActive || isPathsActive(item.paths) ? "text-blue-600" : "text-gray-500",
                 )
               }
             >
@@ -49,7 +56,7 @@ const NavigationBar = () => {
                 <>
                   <div className="mb-1 flex h-6 w-6 items-center justify-center">
                     <img
-                      src={isActive ? `/image/${item.activeIcon}` : `/image/${item.icon}`}
+                      src={isActive || isPathsActive(item.paths) ? `/image/${item.activeIcon}` : `/image/${item.icon}`}
                       alt={item.name}
                       className="h-6 w-6"
                     />
