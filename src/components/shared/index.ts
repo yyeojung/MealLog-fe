@@ -9,6 +9,7 @@ export { default as GradationBadge } from "./GradationBadge";
 export { default as Input } from "./Input";
 export { default as InputNumber } from "./InputNumber";
 export { default as Label } from "./Label";
+export { default as LoadingDot } from "./LoadingDot";
 export { default as NumberStepper } from "./NumberStepper";
 export { default as OptionButtons } from "./OptionButtons";
 export { default as ProgressBar } from "./ProgressBar";
