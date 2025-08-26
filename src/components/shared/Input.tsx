@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes } from "react";
 import ErrorText from "./ErrorText";
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   suffix?: React.ReactNode;
   errorMessage?: string;
 }
@@ -12,7 +12,6 @@ const Input = ({ className, suffix, errorMessage, ...props }: InputProps) => {
       <div className="relative">
         <input
           className="w-full rounded-lg border border-gray-300 bg-white p-3 text-sm focus:border-blue-500 focus:outline-none"
-          type="text"
           {...props}
         />
         {suffix && (

@@ -2,10 +2,14 @@ import { Avatar, Tabs } from "@/components/shared";
 import HomeDaily from "./HomeDaily";
 import HomeMonthly from "./HomeMonthly";
 import { Settings, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getMyMeal } from "@/features/meal/mealSlice";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/features/store";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("일일");
+  const dispatch = useDispatch<AppDispatch>();
 
   const tabs = [
     {
@@ -23,6 +27,13 @@ const Home = () => {
       active: activeTab === "월별",
     },
   ];
+  useEffect(() => {
+    // 원하는 쿼리 전달
+    dispatch(getMyMeal({}));
+  }, [dispatch]);
+
+  const mealList = useSelector((state: RootState) => state.meal.mealList);
+  console.log(mealList);
   return (
     <>
       <div className="border-b border-gray-100/50 bg-white/80 px-6 py-6 backdrop-blur-sm">
