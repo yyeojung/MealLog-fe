@@ -18,8 +18,8 @@ export const getMyMeal = createAsyncThunk(
     try {
       const response = await api.get("/meal", { params: query });
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.error || "Unknown error");
     }
   }
 );
