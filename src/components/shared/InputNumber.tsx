@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from ".";
 import type { InputProps } from "./Input";
 
 export type InputNumberValueType = number | "";
 interface Props extends InputProps {
+  id: string;
   value: InputNumberValueType;
   setValue: (value: InputNumberValueType) => void;
+  errors?: Record<string, string>;
+  setErrors?: (errors: Record<string, string>) => void;
   options?: {
     min?: number;
     max?: number;
@@ -13,7 +16,7 @@ interface Props extends InputProps {
   };
 }
 
-const InputNumber = ({ value, setValue, suffix, options = {}, ...props }: Props) => {
+const InputNumber = ({ id, value, setValue, errors, setErrors, suffix, options = {}, ...props }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const mergedOptions = {
@@ -22,26 +25,29 @@ const InputNumber = ({ value, setValue, suffix, options = {}, ...props }: Props)
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setErrorMessage("");
+    const value = Number(e.target.value);
 
-    if (e.target.value === "") {
-      setValue("");
+    if (mergedOptions?.max && value.toString().length > mergedOptions.max.toString().length) {
       return;
     }
 
-    const value = Number(e.target.value);
+    setErrorMessage("");
+    setErrors?.({ ...errors, [id]: "" });
 
-    console.log(mergedOptions, value);
+    if (e.target.value === "") {
+      setValue("");
+      setErrors?.({ ...errors, [id]: "" });
+      return;
+    }
+
     if (mergedOptions?.min && value < mergedOptions.min) {
       setErrorMessage(`최소값은 ${mergedOptions.min} 이상입니다.`);
+      setErrors?.({ ...errors, [id]: `최소값은 ${mergedOptions.min} 이상입니다.` });
     }
 
     if (mergedOptions?.max && value > mergedOptions.max) {
       setErrorMessage(`최대값은 ${mergedOptions.max} 이하입니다.`);
-    }
-
-    if (mergedOptions?.max && value.toString().length > mergedOptions.max.toString().length) {
-      return;
+      setErrors?.({ ...errors, [id]: `최대값은 ${mergedOptions.max} 이하입니다.` });
     }
 
     if (value > Number.MAX_SAFE_INTEGER) {
@@ -54,6 +60,10 @@ const InputNumber = ({ value, setValue, suffix, options = {}, ...props }: Props)
 
     setValue(value);
   };
+
+  useEffect(() => {
+    setErrorMessage?.(errors?.[id] || "");
+  }, [id, errors]);
 
   return (
     <Input

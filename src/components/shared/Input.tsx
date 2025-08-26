@@ -1,7 +1,8 @@
 import type { InputHTMLAttributes } from "react";
 import ErrorText from "./ErrorText";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+  type?: "text" | "date" | "number";
   suffix?: React.ReactNode;
   errorMessage?: string;
 }
