@@ -9,7 +9,7 @@ const Button = ({ children, type = "button", className, size = "m", color = "gra
   return (
     <button
       type={type}
-      className={`${commonStyles} ${sizeStyles[size]} ${colorStyles[color]} ${className || ""}`}
+      className={`${commonStyles} ${sizeStyles[size]} ${colorStyles[color]} ${className || ""} `}
       {...props}
     >
       {children}
@@ -18,7 +18,7 @@ const Button = ({ children, type = "button", className, size = "m", color = "gra
 };
 
 const commonStyles =
-  "inline-flex items-center justify-center gap-2 w-full cursor-pointer whitespace-nowrap transition-all duration-200 cursor-pointer";
+  "inline-flex items-center justify-center gap-2 w-full cursor-pointer whitespace-nowrap transition-all duration-200 cursor-pointer min-h-14";
 
 const colorStyles = {
   gradation: "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
