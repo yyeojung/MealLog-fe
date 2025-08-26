@@ -35,7 +35,7 @@ class CloudinaryUploadWidget extends Component<CloudinaryUploadWidgetProps> {
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
+          // console.log("Done! Here is the image info: ", result.info);
           document.getElementById("uploadedimage")?.setAttribute("src", result.info.secure_url);
           this.props.uploadImage(result.info.secure_url);
         }
@@ -53,17 +53,15 @@ class CloudinaryUploadWidget extends Component<CloudinaryUploadWidgetProps> {
 
   render() {
     return (
-      <div className="mt-6 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-800">사진 (선택)</h3>
-        <button
-          id="upload_widget"
-          className="flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center transition-colors hover:border-blue-400"
-        >
-          <Camera color="#9ca3af" />
-          <p className="text-gray-600">사진을 업로드하려면 클릭하세요</p>
-          <p className="text-sm text-gray-400">JPG, PNG 파일을 지원합니다</p>
-        </button>
-      </div>
+      <button
+        type="button"
+        id="upload_widget"
+        className="flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center transition-colors hover:border-blue-400"
+      >
+        <Camera color="#9ca3af" />
+        <p className="text-gray-600">사진을 업로드하려면 클릭하세요</p>
+        <p className="text-sm text-gray-400">JPG, PNG 파일을 지원합니다</p>
+      </button>
     );
   }
 }
