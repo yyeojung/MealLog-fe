@@ -5,8 +5,9 @@ import PATHS from "@/routes/paths";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingDot from "../../components/shared/LoadingDot";
+import type { GENDER_TYPE } from "@/types/User";
+import { getUser, isUserInfo, setUser } from "@/utils/token";
 
-type GenderType = "M" | "F";
 type FormKey = keyof typeof FIELDS;
 
 const FIELDS = {
@@ -59,7 +60,7 @@ const FIELDS = {
     required: false,
     defaultValue: "",
   },
-  goalCalorie: {
+  goalCalories: {
     label: "목표 칼로리",
     placeholder: "목표 칼로리를 입력해주세요.",
     suffix: "kcal",
@@ -70,7 +71,7 @@ const FIELDS = {
     required: true,
     defaultValue: "",
   },
-  muscleRate: {
+  muscleMass: {
     label: "근육량",
     placeholder: "근육량을 입력해주세요.",
     suffix: "%",
@@ -81,7 +82,7 @@ const FIELDS = {
     required: false,
     defaultValue: "",
   },
-  bodyFatRate: {
+  bodyFat: {
     label: "체지방량",
     placeholder: "체지방량을 입력해주세요.",
     suffix: "%",
@@ -97,14 +98,19 @@ const FIELDS = {
 const Setup = () => {
   const navigate = useNavigate();
   const { request, loading } = useApi();
+  const user = getUser();
 
   const [fields, setFields] = useState(
     Object.entries(FIELDS).reduce(
       (acc, [key, value]) => {
-        acc[key as FormKey] = value.defaultValue;
+        const userValue =
+          isUserInfo && key === "birthDate"
+            ? new Date(user?.[key as FormKey]).toISOString().split("T")[0]
+            : user?.[key as FormKey];
+        acc[key as FormKey] = userValue || value.defaultValue;
         return acc;
       },
-      {} as Record<FormKey, InputNumberValueType | GenderType | string>,
+      {} as Record<FormKey, InputNumberValueType | GENDER_TYPE | string>,
     ),
   );
   const [errors, setErrors] = useState(
@@ -151,7 +157,8 @@ const Setup = () => {
       body: {
         ...fields,
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setUser(data.user);
         navigate(PATHS.HOME.path);
       },
     });
@@ -159,10 +166,8 @@ const Setup = () => {
 
   return (
     <section className="relative flex min-h-screen w-full flex-col bg-white px-6 py-10 pb-32">
-      <h1 className="mb-12 text-2xl font-bold">
-        목표 칼로리를 설정하고
-        <br />
-        시작해보세요!
+      <h1 className="mb-12 text-2xl font-bold whitespace-pre-line">
+        {user === null ? "목표 칼로리를 설정하고\n시작해보세요!" : "회원정보를\n수정해주세요"}
       </h1>
       <form>
         <div className="flex flex-col gap-4">
@@ -209,7 +214,7 @@ const Setup = () => {
         </div>
         <div className="fixed right-0 bottom-0 left-0 bg-white p-6">
           <Button onClick={() => handleSubmit()} disabled={loading}>
-            {loading ? <LoadingDot /> : "시작하기"}
+            {loading ? <LoadingDot /> : user === null ? "시작하기" : "수정하기"}
           </Button>
         </div>
       </form>

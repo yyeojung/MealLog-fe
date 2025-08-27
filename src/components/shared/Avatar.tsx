@@ -10,7 +10,8 @@ const Avatar = ({ className, children, size = "m", ...props }: Props) => {
   );
 };
 
-const commonStyles = "flex items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600";
+const commonStyles =
+  "flex items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden";
 
 const sizeStyles = {
   s: "mr-3 h-10 w-10",

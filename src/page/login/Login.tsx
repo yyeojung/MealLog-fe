@@ -4,7 +4,7 @@ import PATHS from "@/routes/paths";
 import useApi from "@/hooks/useApi";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
-import { setToken } from "@/utils/token";
+import { setToken, setUser } from "@/utils/token";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,6 +23,7 @@ const Login = () => {
           },
           onSuccess: (data) => {
             setToken(data.token);
+            setUser(data.user);
 
             if (data.user.status === "pending") {
               navigate(PATHS.SETUP.path);

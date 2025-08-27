@@ -4,13 +4,15 @@ import { useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import PATHS from "@/routes/paths";
 import clsx from "clsx";
+import { isUserInfo } from "@/utils/token";
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
 
   const isHome = location.pathname === PATHS.HOME.path;
   const isLogin = location.pathname === PATHS.LOGIN.path;
-  const isSetup = location.pathname === PATHS.SETUP.path;
+  const isSetup = location.pathname === PATHS.SETUP.path && !isUserInfo;
+  const isSetupUpdate = location.pathname === PATHS.SETUP.path && isUserInfo;
   const isLogMeal = location.pathname === PATHS.LOGMEAL.path;
 
   const currentPathInfo = Object.values(PATHS).find((item) => item.path === location.pathname);
@@ -27,7 +29,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
         <Header title={headerTitle} backPath={isLogMeal ? PATHS.HOME.path : undefined} />
       )}
       {children}
-      {!isLogin && !isSetup && <NavigationBar />}
+      {!isLogin && !isSetup && !isSetupUpdate && <NavigationBar />}
     </div>
   );
 };
