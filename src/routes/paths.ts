@@ -1,3 +1,5 @@
+import { isUserInfo } from "@/utils/token";
+
 const PATHS = {
   HOME: {
     path: "/",
@@ -9,7 +11,7 @@ const PATHS = {
   },
   SETUP: {
     path: "/setup",
-    title: "정보 입력",
+    title: isUserInfo ? "정보 수정" : "정보 입력",
   },
   LOGMEAL: {
     path: "/log-meal",

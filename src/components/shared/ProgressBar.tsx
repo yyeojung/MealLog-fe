@@ -18,9 +18,9 @@ const ProgressBar = ({ progress, label, className, ...props }: Props) => {
       </div>
       {label && (
         <div className="mt-2 flex justify-between text-xs text-gray-600">
-          <span>{label.min}</span>
-          <span className="font-medium">{label.middle}</span>
-          <span>{label.max}</span>
+          <span className="flex-1 text-left">{label.min}</span>
+          <span className="flex-1 text-center font-medium">{label.middle}</span>
+          <span className="flex-1 text-right">{label.max}</span>
         </div>
       )}
     </div>

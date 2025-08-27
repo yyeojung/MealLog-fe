@@ -3,6 +3,14 @@ import PATHS from "@/routes/paths";
 import { Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import TodayMealBox from "./components/TodayMealBox";
+import { USER_INFO } from "@/utils/token";
+import { addComma } from "@/utils";
+
+const MOCK_DATA = {
+  totalCalories: 1000,
+  remainingCalories: 100,
+  progress: 83,
+};
 
 const HomeDaily = () => {
   const todayMealItems = [
@@ -26,13 +34,17 @@ const HomeDaily = () => {
           <div className="mb-3 text-sm font-medium text-gray-600">오늘의 칼로리</div>
           <div className="relative">
             <div className="mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
-              1,250<span className="ml-2 text-xl text-gray-500">kcal</span>
+              {addComma(MOCK_DATA?.totalCalories)}
+              <span className="ml-2 text-xl text-gray-500">kcal</span>
             </div>
-            <div className="text-sm text-gray-600">목표 1,500 kcal 중 250 kcal 남음</div>
+            <div className="text-sm text-gray-600">
+              목표 <strong>{addComma(USER_INFO?.goalCalories)} kcal</strong> 중&nbsp;
+              <strong>{MOCK_DATA.remainingCalories} kcal</strong> 남음
+            </div>
           </div>
         </div>
         <div className="relative mb-4">
-          <ProgressBar progress={83} label={{ middle: "83%", max: "1,500" }} />
+          <ProgressBar progress={83} label={{ middle: "83%", max: `${addComma(USER_INFO?.goalCalories)} kcal` }} />
         </div>
         <div className="flex items-center justify-center">
           <Badge size="m" color="yellow">

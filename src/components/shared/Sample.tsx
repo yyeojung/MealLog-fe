@@ -106,6 +106,7 @@ const Sample = () => {
         }
         contents={
           <InputNumber
+            id="content"
             value={numValue}
             setValue={setNumValue}
             suffix={"kcal"}
