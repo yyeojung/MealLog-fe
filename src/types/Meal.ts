@@ -16,6 +16,28 @@ export interface Food {
   nutrients: Nutrients;
 }
 
+export interface Totals {  
+  calories: number,
+  carbs: number,
+  protein: number,
+  fat: number,
+  sugar: number,
+  byType: {
+      breakfast: {
+          calories: number
+      },
+      lunch: {
+          calories: number
+      },
+      dinner: {
+          calories: number
+      },
+      snack: {
+          calories: number
+      }
+  }
+}
+
 export interface MealPayload {
   _id?: string;
   userId: string;
@@ -25,15 +47,8 @@ export interface MealPayload {
   photo?: string;
   memo?: string;
 }
+
 export interface MealResponse {
-  status: string;
-  data: {
-    _id: string;
-    userId: string;
-    date: string;
-    type: string;
-    foods: Food[];
-    photo?: string;
-    memo?: string;
-  };
+  meals: MealPayload;
+  totals: Totals;
 }
