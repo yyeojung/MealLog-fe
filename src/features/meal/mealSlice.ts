@@ -1,10 +1,12 @@
-import type { MealPayload, MealResponse } from "@/types/Meal";
+import type { MealPayload, MealResponse, Totals } from "@/types/Meal";
 import api from "@/utils/api";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
+
 interface MealState {
-  mealList: MealPayload[];
+  mealList: MealPayload[]; 
+  totals: Totals;
   loading: boolean;
   error: string;
   totalPageNum: number;
@@ -14,7 +16,7 @@ interface MealState {
 
 export const getMyMeal = createAsyncThunk(
   "meal/getMyMeal",
-  async (query: { date?: string; type?: string }, { rejectWithValue }) => {
+  async (query: { date?: Date; type?: string }, { rejectWithValue }) => {
     try {
       const response = await api.get("/meal", { params: query });
       return response.data;
@@ -25,7 +27,7 @@ export const getMyMeal = createAsyncThunk(
 );
 
 export const createMeal = createAsyncThunk<
-  MealResponse["data"], // fulfilled 반환 타입
+  MealResponse["meals"], // fulfilled 반환 타입
   MealPayload,          // argument 타입
   { rejectValue: string }
 >(
@@ -37,7 +39,7 @@ export const createMeal = createAsyncThunk<
       //   showToastMessage({ message: "상품 생성 완료! 🎉", status: "success" })
       // );
       console.log(response)
-      return response.data.data;
+      return response.data.meals;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.error || "Unknown error");
     }
@@ -45,7 +47,20 @@ export const createMeal = createAsyncThunk<
 );
 
 const initialState: MealState = {
-  mealList: [],
+  mealList: [], 
+  totals: {
+    calories: 0,
+    carbs: 0,
+    protein: 0,
+    fat: 0,
+    sugar: 0,
+    byType: {
+      breakfast: { calories: 0 },
+      lunch: { calories: 0 },
+      dinner: { calories: 0 },
+      snack: { calories: 0 },
+    },
+  },
   loading: false,
   error: "",
   totalPageNum: 1,
@@ -78,7 +93,8 @@ const mealSlice = createSlice({
       })
       .addCase(getMyMeal.fulfilled, (state, action) => {
         state.loading = false;
-        state.mealList = action.payload.data;
+        state.mealList = action.payload.data.meals;
+        state.totals = action.payload.data.totals;
         state.error = "";
         state.totalPageNum = action.payload.totalPageNum;
         state.pageSize = action.payload.pageSize;
