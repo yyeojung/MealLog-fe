@@ -1,8 +1,10 @@
 import { Button, Input, InputNumber, Label, OptionButtons } from "@/components/shared";
 import type { InputNumberValueType } from "@/components/shared/InputNumber";
+import useApi from "@/hooks/useApi";
 import PATHS from "@/routes/paths";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingDot from "../../components/shared/LoadingDot";
 
 type GenderType = "M" | "F";
 type FormKey = keyof typeof FIELDS;
@@ -14,7 +16,7 @@ const FIELDS = {
     suffix: undefined,
     required: true,
     options: undefined,
-    defaultValue: "M",
+    defaultValue: "male",
   },
   birthDate: {
     label: "생년월일",
@@ -94,6 +96,8 @@ const FIELDS = {
 
 const Setup = () => {
   const navigate = useNavigate();
+  const { request, loading } = useApi();
+
   const [fields, setFields] = useState(
     Object.entries(FIELDS).reduce(
       (acc, [key, value]) => {
@@ -113,8 +117,9 @@ const Setup = () => {
     ),
   );
 
-  const handleSubmit = () => {
-    const newErrors = Object.entries(FIELDS).reduce(
+  const handleValidate = () => {
+    // 필수값 검사
+    const requiredErrors = Object.entries(FIELDS).reduce(
       (acc, [key, { required }]) => {
         if (required && !fields[key as FormKey]) {
           acc[key as FormKey] = "필수 항목을 입력해주세요";
@@ -125,14 +130,31 @@ const Setup = () => {
     );
 
     // 에러 상태 업데이트
-    setErrors((prev) => ({ ...prev, ...newErrors }));
+    const newErrors = { ...errors, ...requiredErrors };
+    setErrors(newErrors);
 
-    if (Object.values(errors).some((value) => value)) {
+    // 에러 경고 메세지
+    if (Object.values(newErrors).some((value) => value)) {
       alert("입력 항목을 다시 확인해주세요");
-      return;
+      return false;
     }
 
-    navigate(PATHS.HOME.path);
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (!handleValidate()) return;
+
+    request({
+      url: "/user",
+      method: "put",
+      body: {
+        ...fields,
+      },
+      onSuccess: () => {
+        navigate(PATHS.HOME.path);
+      },
+    });
   };
 
   return (
@@ -154,13 +176,13 @@ const Setup = () => {
                   items={[
                     {
                       label: "남자",
-                      onClick: () => setFields({ ...fields, gender: "M" }),
-                      active: fields.gender === "M",
+                      onClick: () => setFields({ ...fields, gender: "male" }),
+                      active: fields.gender === "male",
                     },
                     {
                       label: "여자",
-                      onClick: () => setFields({ ...fields, gender: "F" }),
-                      active: fields.gender === "F",
+                      onClick: () => setFields({ ...fields, gender: "female" }),
+                      active: fields.gender === "female",
                     },
                   ]}
                 />
@@ -186,7 +208,9 @@ const Setup = () => {
           ))}
         </div>
         <div className="fixed right-0 bottom-0 left-0 bg-white p-6">
-          <Button onClick={() => handleSubmit()}>시작하기</Button>
+          <Button onClick={() => handleSubmit()} disabled={loading}>
+            {loading ? <LoadingDot /> : "시작하기"}
+          </Button>
         </div>
       </form>
     </section>

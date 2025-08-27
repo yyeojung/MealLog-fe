@@ -62,6 +62,7 @@ const useApi = () => {
         return response.data;
       } catch (error: any) {
         if (error?.name === "CanceledError") return undefined;
+        alert(error.error);
         setError(error);
         onError?.(error);
         throw error;
