@@ -1,12 +1,14 @@
 import { Cake, Moon, Save, Search, Sun, Sunrise, X } from "lucide-react";
-import { Button, ContentCard, Input, Label, OptionButtons } from "@/components/shared";
-import { useState } from "react";
+import { Button, ContentCard, Input, InputNumber, Label, OptionButtons } from "@/components/shared";
+import { useEffect, useState } from "react";
 import CloudinaryUploadWidget from "@/page/register-meal/components/CloudinaryUploadWidget";
 import SelectedMeal from "@/components/page/SelectedMeal";
-import { useDispatch } from "react-redux";
-import { createMeal } from "@/features/meal/mealSlice";
-import type { AppDispatch } from "@/features/store";
+import { useDispatch, useSelector } from "react-redux";
+import { createMeal, getMyMeal } from "@/features/meal/mealSlice";
+import type { AppDispatch, RootState } from "@/features/store";
 import type { MealPayload, MEALTYPE } from "@/types/Meal";
+import type { InputNumberValueType } from "@/components/shared/InputNumber";
+import TotalMeal from "@/components/page/TotalMeal";
 
 // const InitialFormData = {
 //   num: 0,
@@ -23,31 +25,27 @@ import type { MealPayload, MEALTYPE } from "@/types/Meal";
 //   memo: "", // 식사 메모
 // };
 
-interface Nutrients {
-  carbs: number; // 탄수화물
-  protein: number; // 단백질
-  fat: number; // 지방
-  sugar: number; // 당류
-}
-
 const RegisterMeal = () => {
   const [isCustomInput /*setIsCustomInput*/] = useState(true);
   // const [formData, setFormData] = useState(InitialFormData);
   const [selectedMealTab, setSelectedMealTab] = useState<MEALTYPE>("breakfast");
-  const [num, setNum] = useState<number>(0);
   const [name, setName] = useState<string>("");
   // const [amount, setAmount] = useState<number>(0);
-  const [calories, setCalories] = useState<number>(0);
-  const [nutrients, setNutrients] = useState<Nutrients>({
-    carbs: 0,
-    protein: 0,
-    fat: 0,
-    sugar: 0,
-  });
+  const [calories, setCalories] = useState<InputNumberValueType>(0);
+  const [carbs, setCarbs] = useState<InputNumberValueType>(0);
+  const [protein, setProtein] = useState<InputNumberValueType>(0);
+  const [fat, setFat] = useState<InputNumberValueType>(0);
   const [photo, setPhoto] = useState<string>("");
   const [memo, setMemo] = useState<string>("");
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getMyMeal({ date: new Date(), type: selectedMealTab }));
+  }, [dispatch, selectedMealTab]);
+
+  const { mealList, totals } = useSelector((state: RootState) => state.meal);
+  console.log(mealList, totals);
 
   const items = [
     {
@@ -103,17 +101,25 @@ const RegisterMeal = () => {
     event.preventDefault();
     // if (mode === "new") {
     //새 상품 만들기
+    if (!name) return alert("음식 이름을 입력해주세요.");
+    if (!calories) return alert("칼로리를 입력해주세요.");
+
     const mealPayload: MealPayload = {
       userId: "68ada9ec4cc1b5e3aadcfee0",
       date: new Date(),
-      type: "breakfast",
+      type: selectedMealTab,
       foods: [
         {
-          num,
+          num: 1,
           name,
           amount: 200,
-          calories,
-          nutrients,
+          calories: Number(calories),
+          nutrients: {
+            carbs: Number(carbs),
+            protein: Number(protein),
+            fat: Number(fat),
+            sugar: 0,
+          },
         },
       ],
       photo,
@@ -128,27 +134,6 @@ const RegisterMeal = () => {
 
   const handleFoodNameChange = (value: string) => {
     setName(value);
-  };
-  const handleCaloriesChange = (value: string) => {
-    setCalories(Number(value));
-  };
-  const handleCarbsChange = (value: string) => {
-    setNutrients({
-      ...nutrients,
-      carbs: Number(value),
-    });
-  };
-  const handleProteinChange = (value: string) => {
-    setNutrients({
-      ...nutrients,
-      protein: Number(value),
-    });
-  };
-  const handleFatChange = (value: string) => {
-    setNutrients({
-      ...nutrients,
-      fat: Number(value),
-    });
   };
   const handlePhotoUpload = (url: string) => {
     //이미지 업로드
@@ -167,39 +152,22 @@ const RegisterMeal = () => {
         <ContentCard heading={<Label htmlFor="content">식사 분류</Label>}>
           <OptionButtons items={items} />
         </ContentCard>
-        <div className="mt-4 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-semibold text-gray-800">선택된 음식</h3>
-            <div className="text-sm font-medium text-blue-600">총 300 kcal</div>
-          </div>
-          <div className="mb-4 grid grid-cols-4 gap-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-3">
-            <div className="text-center">
-              <div className="mb-1 text-xs text-gray-600">칼로리</div>
-              <div className="text-sm font-bold text-gray-800">300</div>
-              <div className="text-xs text-gray-500">kcal</div>
-            </div>
-            <div className="text-center">
-              <div className="mb-1 text-xs text-gray-600">탄수화물</div>
-              <div className="text-sm font-bold text-orange-600">65.0</div>
-              <div className="text-xs text-gray-500">g</div>
-            </div>
-            <div className="text-center">
-              <div className="mb-1 text-xs text-gray-600">단백질</div>
-              <div className="text-sm font-bold text-green-600">6.0</div>
-              <div className="text-xs text-gray-500">g</div>
-            </div>
-            <div className="text-center">
-              <div className="mb-1 text-xs text-gray-600">지방</div>
-              <div className="text-sm font-bold text-purple-600">2.0</div>
-              <div className="text-xs text-gray-500">g</div>
+        {mealList.length > 0 && (
+          <div className="mt-4 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
+            <TotalMeal calories={totals.calories} carbs={totals.carbs} protein={totals.protein} fat={totals.fat} />
+            <div className="flex flex-col gap-3">
+              {mealList[0].foods.map((item) => (
+                <SelectedMeal
+                  key={item._id}
+                  name={item.name}
+                  calories={item.calories}
+                  nutrients={item.nutrients}
+                  num={item.num}
+                />
+              ))}
             </div>
           </div>
-          <SelectedMeal
-            num={num}
-            onPlus={() => setNum((prev) => prev + 1)}
-            onMinus={() => setNum((prev) => prev - 1)}
-          />
-        </div>
+        )}
         <div className="mt-6 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
           <div className="flex justify-between">
             <Label required htmlFor="food">
@@ -217,6 +185,7 @@ const RegisterMeal = () => {
             placeholder="이름을 입력해주세요."
             suffix={isCustomInput ? undefined : <Search size={16} color="gray" />}
             className="mt-4"
+            value={name}
             onChange={(e) => handleFoodNameChange(e.target.value)}
           />
         </div>
@@ -225,34 +194,37 @@ const RegisterMeal = () => {
             <Label required htmlFor="calories">
               칼로리
             </Label>
-            <Input
+            <InputNumber
               id="calories"
               placeholder="칼로리를 입력해주세요."
-              color="gray"
               className="mt-4"
-              type="number"
-              onChange={(e) => handleCaloriesChange(e.target.value)}
+              value={calories}
+              suffix={"kcal"}
+              setValue={setCalories}
             />
           </div>
         )}
         {isCustomInput && (
           <div className="mt-6 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
-            <Label htmlFor="nutritional">탄단지</Label>
+            <Label htmlFor="carbs">탄단지</Label>
             <div className="grid grid-cols-3 gap-2 pt-4">
-              <Input
-                id="nutritional"
+              <InputNumber
+                id="carbs"
                 placeholder="탄수화물"
                 color="gray"
-                type="number"
-                onChange={(e) => handleCarbsChange(e.target.value)}
+                suffix={"g"}
+                value={carbs}
+                setValue={setCarbs}
               />
-              <Input
+              <InputNumber
+                id="protein"
                 placeholder="단백질"
                 color="gray"
-                type="number"
-                onChange={(e) => handleProteinChange(e.target.value)}
+                suffix={"g"}
+                value={protein}
+                setValue={setProtein}
               />
-              <Input placeholder="지방" color="gray" type="number" onChange={(e) => handleFatChange(e.target.value)} />
+              <InputNumber id="fat" placeholder="지방" color="gray" suffix={"g"} value={fat} setValue={setFat} />
             </div>
           </div>
         )}
