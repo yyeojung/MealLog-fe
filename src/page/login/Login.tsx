@@ -61,6 +61,7 @@ const Login = () => {
       </hgroup>
       <div className="flex flex-1 flex-col gap-4">
         <Button
+          className="min-h-14"
           color="black"
           onClick={() => {
             handleGoogleLogin();
