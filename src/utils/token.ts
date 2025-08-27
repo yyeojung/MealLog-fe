@@ -19,7 +19,10 @@ const getUser = () => {
 };
 
 const setUser = (user: User) => {
-  sessionStorage.setItem("user", JSON.stringify(user));
+  const oldUser = getUser();
+  const mergeUser = oldUser ? { ...oldUser, ...user } : user;
+
+  sessionStorage.setItem("user", JSON.stringify(mergeUser));
 };
 
 const TOKEN = getToken();
