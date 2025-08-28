@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
 interface MealState {
-  mealList: MealPayload[]; 
+  meals: MealPayload[]; 
   totals: Totals;
   loading: boolean;
   error: string;
@@ -47,7 +47,7 @@ export const createMeal = createAsyncThunk<
 );
 
 const initialState: MealState = {
-  mealList: [], 
+  meals: [], 
   totals: {
     calories: 0,
     carbs: 0,
@@ -93,7 +93,7 @@ const mealSlice = createSlice({
       })
       .addCase(getMyMeal.fulfilled, (state, action) => {
         state.loading = false;
-        state.mealList = action.payload.data.meals;
+        state.meals = action.payload.data.meals;
         state.totals = action.payload.data.totals;
         state.error = "";
         state.totalPageNum = action.payload.totalPageNum;
