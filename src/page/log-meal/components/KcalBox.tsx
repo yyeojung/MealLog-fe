@@ -7,7 +7,7 @@ const KcalBox = ({ tab, calories }: Props) => {
   console.log(calories);
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/90 p-6 text-center shadow-lg backdrop-blur-sm">
-      <div className="mb-3 text-sm font-bold text-gray-600">2024.05.05</div>
+      <div className="mb-3 text-sm font-bold text-gray-600">{new Date().toISOString().split("T")[0]}</div>
       <div className="mb-3 text-sm font-medium text-gray-600">총 {tab} 칼로리</div>
       <div className="mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
         {calories}

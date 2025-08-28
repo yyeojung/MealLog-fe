@@ -62,10 +62,15 @@ const LogMeal = () => {
     return tabItem?.label || type;
   };
 
-  const getFoods = (type: string) => {
+  const getMeal = (type: string) => {
     if (!data?.data?.meals) return [];
-    const meal = data.data.meals.filter((meal: MealPayload) => meal.type === type)?.[0];
-    return meal?.foods || {};
+    const meal = data.data.meals.filter((meal: MealPayload) => meal.type === type);
+    return meal || {};
+  };
+
+  const getCalories = (type: string) => {
+    if (!data?.data?.totals) return 0;
+    return data.data.totals.byType[type]?.calories || 0;
   };
 
   useEffect(() => {
@@ -90,12 +95,12 @@ const LogMeal = () => {
           <KcalBox tab={getLabel(activeTab)} calories={data?.data?.totals?.calories || 0} />
           {activeTab === "all" ? (
             <>
-              <LogBox tab={getLabel("breakfast")} foods={getFoods("breakfast")} />
-              <LogBox tab={getLabel("lunch")} foods={getFoods("lunch")} />
-              <LogBox tab={getLabel("dinner")} foods={getFoods("dinner")} />
+              <LogBox tab={getLabel("breakfast")} meal={getMeal("breakfast")} getCalories={getCalories("breakfast")} />
+              <LogBox tab={getLabel("lunch")} meal={getMeal("lunch")} getCalories={getCalories("lunch")} />
+              <LogBox tab={getLabel("dinner")} meal={getMeal("dinner")} getCalories={getCalories("dinner")} />
             </>
           ) : (
-            <LogBox tab={getLabel(activeTab)} foods={getFoods(activeTab)} />
+            <LogBox tab={getLabel(activeTab)} meal={getMeal(activeTab)} getCalories={getCalories(activeTab)} />
           )}
         </>
       )}

@@ -1,16 +1,19 @@
-import type { Food } from "@/types/Meal";
+import { Label } from "@/components/shared";
+import type { Food, MealPayload } from "@/types/Meal";
 import clsx from "clsx";
 import { Hamburger, Moon, SunMedium, Sunrise } from "lucide-react";
 
 interface Props {
   tab: string;
-  foods: Food[];
+  meal: MealPayload[];
+  getCalories: number;
 }
 
-const LogBox = ({ tab, foods = [] }: Props) => {
+const LogBox = ({ tab, meal = [], getCalories = 0 }: Props) => {
+  console.log(meal);
   return (
     <div className="rounded-2xl border border-white/20 bg-white/90 p-5 shadow-lg backdrop-blur-sm">
-      {foods.length > 0 ? (
+      {meal[0]?.foods?.length > 0 ? (
         <>
           <div className="mb-4 flex items-center justify-between">
             <>
@@ -31,17 +34,17 @@ const LogBox = ({ tab, foods = [] }: Props) => {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800">{tab}</h3>
-                  <p className="text-sm text-gray-600">{11} kcal</p>
+                  <p className="text-sm text-gray-600">{getCalories} kcal</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-gray-500">{foods.length}개 음식</div>
+                <div className="text-sm text-gray-500">{meal[0]?.foods?.length}개 음식</div>
               </div>
             </>
           </div>
-          {foods.length > 0 && (
+          {meal[0]?.foods?.length > 0 && (
             <div className="space-y-3">
-              {foods.map((food) => (
+              {meal[0]?.foods.map((food: Food) => (
                 <div
                   key={food._id}
                   className="flex items-center justify-between rounded-xl border border-gray-100 bg-white/70 px-4 py-3"
@@ -57,6 +60,20 @@ const LogBox = ({ tab, foods = [] }: Props) => {
               ))}
             </div>
           )}
+          {meal[0]?.memo && (
+            <div className="column mt-3 flex flex-col gap-2">
+              <Label>메모</Label>
+              <div className="rounded-xl border border-gray-100 bg-white/70 p-4">{meal[0]?.memo}</div>
+            </div>
+          )}
+
+          {meal[0]?.photo && (
+            <div className="column mt-3 flex flex-col gap-2">
+              <Label>사진</Label>
+              <img src={meal[0]?.photo} alt="meal" className="w-full" />
+            </div>
+          )}
+
           {/* <a className="mt-4 block" href="/preview/abe4f2e7-c5b6-4ee9-a94e-b7ee0eaa75b8/1864035/add-meal/breakfast">
         <div className="cursor-pointer rounded-xl border-2 border-dashed border-blue-200 py-3 text-center text-sm font-medium whitespace-nowrap text-blue-600 transition-colors hover:bg-blue-50">
           <i className="ri-add-line mr-1"></i>음식 추가하기
