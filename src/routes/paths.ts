@@ -34,7 +34,7 @@ const PATHS = {
     title: "내 프로필",
   },
   COMPONENTS: {
-    path: "/components",
+    path: "/sample",
     title: "컴포넌트",
   },
 } as const;
