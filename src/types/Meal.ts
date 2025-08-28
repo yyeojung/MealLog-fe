@@ -1,4 +1,4 @@
-export type MEALTYPE = "breakfast"| "lunch"| "dinner"| "snack";
+export type MEALTYPE = "breakfast" | "lunch" | "dinner" | "snack";
 
 export interface Nutrients {
   carbs: number;
@@ -16,26 +16,26 @@ export interface Food {
   nutrients: Nutrients;
 }
 
-export interface Totals {  
-  calories: number,
-  carbs: number,
-  protein: number,
-  fat: number,
-  sugar: number,
+export interface Totals {
+  calories: number;
+  carbs: number;
+  protein: number;
+  fat: number;
+  sugar: number;
   byType: {
-      breakfast: {
-          calories: number
-      },
-      lunch: {
-          calories: number
-      },
-      dinner: {
-          calories: number
-      },
-      snack: {
-          calories: number
-      }
-  }
+    breakfast: {
+      calories: number;
+    };
+    lunch: {
+      calories: number;
+    };
+    dinner: {
+      calories: number;
+    };
+    snack: {
+      calories: number;
+    };
+  };
 }
 
 export interface MealPayload {
@@ -52,3 +52,8 @@ export interface MealResponse {
   meals: MealPayload;
   totals: Totals;
 }
+
+export const isValidMealType = (type: string): type is MEALTYPE => {
+  const mealTypes = ["breakfast", "lunch", "dinner", "snack"];
+  return mealTypes.includes(type as MEALTYPE);
+};
