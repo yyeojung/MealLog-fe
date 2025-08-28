@@ -10,14 +10,15 @@ const LogMeal = () => {
   const { request, data, loading } = useApi();
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const DATE = searchParams.get("date") || new Date().toISOString().split("T")[0];
   const MEAL_TYPE = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<MEALTYPE | "all">(
     MEAL_TYPE && isValidMealType(MEAL_TYPE) ? MEAL_TYPE : "all",
   );
 
   useEffect(() => {
-    setSearchParams({ tab: activeTab });
-  }, [activeTab, setSearchParams]);
+    setSearchParams({ tab: activeTab, date: DATE });
+  }, [activeTab, DATE, setSearchParams]);
 
   const tabs = useMemo(
     () => [
@@ -74,15 +75,12 @@ const LogMeal = () => {
   };
 
   useEffect(() => {
-    const url =
-      activeTab === "all"
-        ? `/meal?date=${new Date().toISOString().split("T")[0]}`
-        : `/meal?date=${new Date().toISOString().split("T")[0]}&type=${activeTab}`;
+    const url = activeTab === "all" ? `/meal?date=${DATE}` : `/meal?date=${DATE}&type=${activeTab}`;
     request({
       url,
       method: "get",
     });
-  }, [request, activeTab]);
+  }, [request, activeTab, DATE]);
 
   return (
     <div className="flex flex-col gap-4 p-6">
@@ -92,7 +90,7 @@ const LogMeal = () => {
         <LoadingSection />
       ) : (
         <>
-          <KcalBox tab={getLabel(activeTab)} calories={data?.data?.totals?.calories || 0} />
+          <KcalBox tab={getLabel(activeTab)} date={DATE} calories={data?.data?.totals?.calories || 0} />
           {activeTab === "all" ? (
             <>
               <LogBox tab={getLabel("breakfast")} meal={getMeal("breakfast")} getCalories={getCalories("breakfast")} />
