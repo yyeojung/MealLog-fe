@@ -1,12 +1,19 @@
-import { Tabs } from "@/components/shared";
+import { Tabs, LoadingSection } from "@/components/shared";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import LogBox from "./components/LogBox";
 import KcalBox from "./components/KcalBox";
+import { isValidMealType, type MealPayload, type MEALTYPE } from "@/types/Meal";
+import useApi from "@/hooks/useApi";
 
 const LogMeal = () => {
+  const { request, data, loading } = useApi();
+
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") || "");
+  const MEAL_TYPE = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState<MEALTYPE | "all">(
+    MEAL_TYPE && isValidMealType(MEAL_TYPE) ? MEAL_TYPE : "all",
+  );
 
   useEffect(() => {
     setSearchParams({ tab: activeTab });
@@ -16,47 +23,81 @@ const LogMeal = () => {
     () => [
       {
         label: "전체",
-        onClick: () => setActiveTab("전체"),
-        active: activeTab === "전체",
+        type: "all",
+        onClick: () => setActiveTab("all"),
+        active: activeTab === "all",
       },
       {
         label: "아침",
-        onClick: () => setActiveTab("아침"),
-        active: activeTab === "아침",
+        type: "breakfast",
+        onClick: () => setActiveTab("breakfast"),
+        active: activeTab === "breakfast",
       },
 
       {
         label: "점심",
-        onClick: () => setActiveTab("점심"),
-        active: activeTab === "점심",
+        type: "lunch",
+        onClick: () => setActiveTab("lunch"),
+        active: activeTab === "lunch",
       },
 
       {
         label: "저녁",
-        onClick: () => setActiveTab("저녁"),
-        active: activeTab === "저녁",
+        type: "dinner",
+        onClick: () => setActiveTab("dinner"),
+        active: activeTab === "dinner",
       },
       {
         label: "간식",
-        onClick: () => setActiveTab("간식"),
-        active: activeTab === "간식",
+        type: "snack",
+        onClick: () => setActiveTab("snack"),
+        active: activeTab === "snack",
       },
     ],
     [activeTab],
   );
 
+  const getLabel = (type: string) => {
+    const tabItem = tabs.find((tab) => tab.type === type);
+    return tabItem?.label || type;
+  };
+
+  const getFoods = (type: string) => {
+    if (!data?.data?.meals) return [];
+    const meal = data.data.meals.filter((meal: MealPayload) => meal.type === type)?.[0];
+    return meal?.foods || {};
+  };
+
+  useEffect(() => {
+    const url =
+      activeTab === "all"
+        ? `/meal?date=${new Date().toISOString().split("T")[0]}`
+        : `/meal?date=${new Date().toISOString().split("T")[0]}&type=${activeTab}`;
+    request({
+      url,
+      method: "get",
+    });
+  }, [request, activeTab]);
+
   return (
     <div className="flex flex-col gap-4 p-6">
       <Tabs items={tabs} />
-      <KcalBox tab={activeTab} />
-      {activeTab === "전체" ? (
-        <>
-          <LogBox tab="아침" />
-          <LogBox tab="점심" />
-          <LogBox tab="저녁" />
-        </>
+
+      {loading ? (
+        <LoadingSection />
       ) : (
-        <LogBox tab={activeTab} />
+        <>
+          <KcalBox tab={getLabel(activeTab)} calories={data?.data?.totals?.calories || 0} />
+          {activeTab === "all" ? (
+            <>
+              <LogBox tab={getLabel("breakfast")} foods={getFoods("breakfast")} />
+              <LogBox tab={getLabel("lunch")} foods={getFoods("lunch")} />
+              <LogBox tab={getLabel("dinner")} foods={getFoods("dinner")} />
+            </>
+          ) : (
+            <LogBox tab={getLabel(activeTab)} foods={getFoods(activeTab)} />
+          )}
+        </>
       )}
     </div>
   );
