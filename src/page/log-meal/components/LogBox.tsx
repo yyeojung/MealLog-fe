@@ -69,7 +69,6 @@ const LogBox = ({ tab, meal = [], getCalories = 0 }: Props) => {
 
             {meal[0]?.photo && (
               <div className="column mt-3 flex flex-col gap-2">
-                <Label>사진</Label>
                 <img src={meal[0]?.photo} alt="meal" className="w-full" />
               </div>
             )}

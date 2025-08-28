@@ -1,3 +1,5 @@
+import { addComma } from "@/utils";
+
 interface Props {
   tab: string;
   calories: number;
@@ -11,7 +13,7 @@ const KcalBox = ({ tab, calories, date }: Props) => {
         <div className="mb-3 text-sm font-bold text-gray-600">{date}</div>
         <div className="mb-3 text-sm font-medium text-gray-600">총 {tab} 칼로리</div>
         <div className="mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
-          {calories}
+          {addComma(calories)}
           <span className="ml-2 text-xl text-gray-500">kcal</span>
         </div>
 
