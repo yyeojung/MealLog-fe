@@ -16,7 +16,7 @@ interface MealState {
 
 export const getMyMeal = createAsyncThunk(
   "meal/getMyMeal",
-  async (query: { date?: Date; type?: string }, { rejectWithValue }) => {
+  async (query: { date?: string; type?: string }, { rejectWithValue }) => {
     try {
       const response = await api.get("/meal", { params: query });
       return response.data;
@@ -27,7 +27,7 @@ export const getMyMeal = createAsyncThunk(
 );
 
 export const createMeal = createAsyncThunk<
-  MealResponse["meals"], // fulfilled 반환 타입
+  MealPayload, // fulfilled 반환 타입
   MealPayload,          // argument 타입
   { rejectValue: string }
 >(
@@ -40,6 +40,32 @@ export const createMeal = createAsyncThunk<
       // );
       console.log(response)
       return response.data.meals;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.error || "Unknown error");
+    }
+  }
+);
+
+export const updateMeal= createAsyncThunk(
+  "meal/updateMeal",
+  async (payload: { mealId: string; data: MealPayload}, { rejectWithValue }) => {
+    try {
+      const { mealId, data } = payload;
+
+      const response = await api.put(`/meal/${mealId}`, data);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.error || "Unknown error");
+    }
+  }
+);
+
+export const deleteMeal = createAsyncThunk(
+  "meal/deleteMeal",
+  async (query: { mealId?: string; foodId?: string }, { rejectWithValue }) => {
+    try {
+      const response = await api.delete("/meal", { params: query });
+      return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.error || "Unknown error");
     }
@@ -100,6 +126,30 @@ const mealSlice = createSlice({
         state.pageSize = action.payload.pageSize;
       })
       .addCase(getMyMeal.rejected, (state, /*action*/) => {
+        state.loading = false;
+        // state.error = action.payload;
+      })
+      .addCase(updateMeal.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateMeal.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+        state.success = true;
+      })
+      .addCase(updateMeal.rejected, (state, /*action*/) => {
+        state.loading = false;
+        // state.error = action.payload;
+        state.success = false;
+      })
+      .addCase(deleteMeal.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteMeal.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(deleteMeal.rejected, (state, /*action*/) => {
         state.loading = false;
         // state.error = action.payload;
       })
