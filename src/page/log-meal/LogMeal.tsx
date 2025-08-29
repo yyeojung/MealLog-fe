@@ -91,6 +91,7 @@ const LogMeal = () => {
       ) : (
         <>
           <KcalBox tab={getLabel(activeTab)} date={DATE} calories={data?.data?.totals?.calories || 0} />
+
           {activeTab === "all" ? (
             <>
               <LogBox tab={getLabel("breakfast")} meal={getMeal("breakfast")} getCalories={getCalories("breakfast")} />
