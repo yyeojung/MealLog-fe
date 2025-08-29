@@ -8,6 +8,7 @@ const MyPage = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     navigate("/login");
   };
   return (
