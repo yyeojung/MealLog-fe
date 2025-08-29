@@ -2,7 +2,7 @@ import axios, { type AxiosResponse, type InternalAxiosRequestConfig } from "axio
 
 const LOCAL_BACKEND = import.meta.env.VITE_LOCAL_BACKEND;
 const PROD_BACKEND = import.meta.env.VITE_PROD_BACKEND;
-const NODE_ENV = import.meta.env.NODE_ENV;
+const NODE_ENV = import.meta.env.MODE;
 
 console.log(NODE_ENV);
 
