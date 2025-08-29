@@ -1,6 +1,3 @@
-import { SquarePen } from "lucide-react";
-import { TextButton } from "../shared";
-
 interface TotalMealProps {
   calories: number;
   carbs?: number;
@@ -11,13 +8,7 @@ interface TotalMealProps {
 const TotalMeal = ({ calories, carbs, protein, fat }: TotalMealProps) => {
   return (
     <>
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="font-semibold text-gray-800">선택된 음식</h3>
-        <TextButton>
-          <SquarePen color="blue" size={16} /> 수정하기
-        </TextButton>
-      </div>
-      <div className="mb-4 grid grid-cols-4 gap-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-3">
+      <div className="grid grid-cols-4 gap-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-3">
         <div className="text-center">
           <div className="mb-1 text-xs text-gray-600">칼로리</div>
           <div className="text-sm font-bold text-gray-800">{calories}</div>

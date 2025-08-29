@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 interface SelectedMealProps {
   name: string;
   calories: number;
@@ -13,17 +15,14 @@ const SelectedMeal = ({ name, calories, nutrients, num }: SelectedMealProps) => 
     {
       label: "탄수화물",
       value: nutrients?.carbs,
-      color: "orange",
     },
     {
       label: "단백질",
       value: nutrients?.protein,
-      color: "green",
     },
     {
       label: "지방",
       value: nutrients?.fat,
-      color: "purple",
     },
   ];
   return (
@@ -53,8 +52,24 @@ const SelectedMeal = ({ name, calories, nutrients, num }: SelectedMealProps) => 
         </div>
         <div className="grid grid-cols-3 gap-2 text-xs">
           {nutrientItems.map((item) => (
-            <div key={item.label} className={`rounded bg-${item.color}-50 p-1 text-center`}>
-              <span className={`text-${item.color}-600`}>{item.label}</span>
+            <div
+              key={item.label}
+              className={clsx(
+                "rounded p-1 text-center",
+                item.label === "탄수화물" ? "bg-orange-50" : item.label === "단백질" ? "bg-green-50" : "bg-purple-50",
+              )}
+            >
+              <span
+                className={clsx(
+                  item.label === "탄수화물"
+                    ? "text-orange-600"
+                    : item.label === "단백질"
+                      ? "text-green-600"
+                      : "text-purple-600",
+                )}
+              >
+                {item.label}
+              </span>
               <div className="font-medium">{item.value ?? "-"}g</div>
             </div>
           ))}

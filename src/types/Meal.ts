@@ -41,7 +41,7 @@ export interface Totals {
 export interface MealPayload {
   _id?: string;
   userId: string;
-  date: Date;
+  date: string;
   type: string;
   foods: Food[];
   photo?: string;

@@ -40,7 +40,7 @@ const Home = () => {
     dispatch(getMyMeal({}));
   }, [dispatch]);
 
-  const mealList = useSelector((state: RootState) => state.meal.mealList);
+  const mealList = useSelector((state: RootState) => state.meal.meals);
   console.log(mealList);
   return (
     <>
