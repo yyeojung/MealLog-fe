@@ -11,7 +11,7 @@ const PATHS = {
   },
   SETUP: {
     path: "/setup",
-    title: USER_INFO?.status === "pending" ? "정보 입력" : "정보 수정",
+    title: USER_INFO()?.status === "pending" ? "정보 입력" : "정보 수정",
   },
   LOGMEAL: {
     path: "/log-meal",

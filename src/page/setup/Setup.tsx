@@ -104,7 +104,7 @@ const Setup = () => {
     Object.entries(FIELDS).reduce(
       (acc, [key, value]) => {
         let userValue;
-        if (isUserInfo && key === "birthDate") {
+        if (isUserInfo() && key === "birthDate") {
           const birthDateValue = user?.[key as FormKey];
           if (birthDateValue && !isNaN(new Date(birthDateValue).getTime())) {
             userValue = new Date(birthDateValue).toISOString().split("T")[0];

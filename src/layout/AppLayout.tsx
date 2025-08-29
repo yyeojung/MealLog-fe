@@ -11,8 +11,8 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 
   const isHome = location.pathname === PATHS.HOME.path;
   const isLogin = location.pathname === PATHS.LOGIN.path;
-  const isSetup = location.pathname === PATHS.SETUP.path && USER_INFO?.status === "pending";
-  const isSetupUpdate = location.pathname === PATHS.SETUP.path && USER_INFO?.status !== "active";
+  const isSetup = location.pathname === PATHS.SETUP.path && USER_INFO()?.status === "pending";
+  const isSetupUpdate = location.pathname === PATHS.SETUP.path && USER_INFO()?.status !== "active";
   const isLogMeal = location.pathname === PATHS.LOGMEAL.path;
 
   const currentPathInfo = Object.values(PATHS).find((item) => item.path === location.pathname);

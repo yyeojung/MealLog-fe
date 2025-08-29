@@ -5,12 +5,12 @@ import PATHS from "./paths";
 const PrivateRoute = () => {
   const location = useLocation();
 
-  if (!isToken || !isUserInfo) {
+  if (!isToken() || !isUserInfo()) {
     return <Navigate to={PATHS.LOGIN.path} />;
   }
 
   // user status pending 상태일 때 허용된 경로만 접근 가능
-  if (USER_INFO?.status === "pending") {
+  if (USER_INFO()?.status === "pending") {
     const allowedPaths: string[] = [PATHS.LOGIN.path, PATHS.SETUP.path];
 
     if (!allowedPaths.includes(location.pathname)) {
