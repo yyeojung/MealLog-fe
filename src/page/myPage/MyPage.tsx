@@ -1,8 +1,15 @@
-import { Avatar } from "@/components/shared";
+import { Avatar, Button } from "@/components/shared";
 import { addComma, calculateAge } from "@/utils";
 import { USER_INFO } from "@/utils/token";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div className="px-4 py-6">
       <div className="rounded-xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm">
@@ -72,6 +79,9 @@ const MyPage = () => {
           </div>
         </div>
       </div>
+      <Button onClick={handleLogout} className="mt-4">
+        로그아웃
+      </Button>
     </div>
   );
 };
