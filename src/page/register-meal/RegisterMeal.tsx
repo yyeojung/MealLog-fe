@@ -58,7 +58,6 @@ const RegisterMeal = () => {
   }, [dispatch, selectedMealTab, isoDate]);
 
   const { meals: mealList, totals } = useSelector((state: RootState) => state.meal);
-  console.log(USER_INFO);
 
   const handleSelectedMealTab = (type: MEALTYPE) => {
     setSelectedMealTab(type);
