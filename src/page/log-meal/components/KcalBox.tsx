@@ -1,14 +1,9 @@
 import { Button, Label, LoadingSection } from "@/components/shared";
 import useApi from "@/hooks/useApi";
+import type { Feedback } from "@/types/Feedback";
 import { addComma } from "@/utils";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
-interface Feedback {
-  nutritionBalance: string;
-  goodPoints: string;
-  badPoints: string;
-}
 
 interface Props {
   tab: string;
