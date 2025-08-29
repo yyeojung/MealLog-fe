@@ -1,18 +1,23 @@
 import type { InputHTMLAttributes } from "react";
 import ErrorText from "./ErrorText";
+import clsx from "clsx";
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+  type?: "text" | "date" | "number";
   suffix?: React.ReactNode;
   errorMessage?: string;
+  paddingSize?: "s";
 }
 
-const Input = ({ className, suffix, errorMessage, ...props }: InputProps) => {
+const Input = ({ className, suffix, paddingSize, errorMessage, ...props }: InputProps) => {
   return (
     <div className={`flex flex-col gap-0.5 ${className || ""}`}>
       <div className="relative">
         <input
-          className="w-full rounded-lg border border-gray-300 bg-white p-3 text-sm focus:border-blue-500 focus:outline-none"
-          type="text"
+          className={clsx(
+            "w-full rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:outline-none",
+            paddingSize ? paddingStyles[paddingSize] : "p-3",
+          )}
           {...props}
         />
         {suffix && (
@@ -25,3 +30,7 @@ const Input = ({ className, suffix, errorMessage, ...props }: InputProps) => {
 };
 
 export default Input;
+
+const paddingStyles = {
+  s: "p-2",
+};

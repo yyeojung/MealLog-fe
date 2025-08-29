@@ -1,9 +1,49 @@
-import { Button } from "@/components/shared";
+import { Button, LoadingDot } from "@/components/shared";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/routes/paths";
+import useApi from "@/hooks/useApi";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import { setToken, setUser } from "@/utils/token";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { request } = useApi();
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      setIsGoogleLoading(true);
+      try {
+        await request({
+          url: "/auth/google",
+          method: "post",
+          body: {
+            token: response.access_token,
+          },
+          onSuccess: (data) => {
+            setToken(data.token);
+            setUser(data.user);
+
+            if (data.user.status === "pending") {
+              navigate(PATHS.SETUP.path);
+            } else {
+              navigate(PATHS.HOME.path);
+            }
+          },
+          onError: (error) => {
+            console.log(error.message);
+          },
+        });
+      } finally {
+        setIsGoogleLoading(false);
+      }
+    },
+    onError: () => {
+      alert("구글 로그인에 실패하였습니다. 다시 시도해주세요");
+    },
+  });
+
   return (
     <section className="flex h-screen w-full flex-col bg-white p-6">
       <hgroup className="flex flex-4 flex-col items-center justify-center gap-6 text-center">
@@ -20,16 +60,22 @@ const Login = () => {
         </h2>
         <p className="text-lg text-gray-500">⚡️ 3초 만에 빠른 회원가입</p>
       </hgroup>
-
       <div className="flex flex-1 flex-col gap-4">
         <Button
+          className="min-h-14"
           color="black"
           onClick={() => {
-            navigate(PATHS.SETUP.path);
+            handleGoogleLogin();
           }}
         >
-          <img src="/image/sns-google.png" alt="google" className="h-6 w-6 rounded-2xl bg-white" />
-          Google로 시작하기
+          {isGoogleLoading ? (
+            <LoadingDot color="white" />
+          ) : (
+            <>
+              <img src="/image/sns-google.png" alt="google" className="h-6 w-6 rounded-2xl bg-white" />
+              Google로 시작하기
+            </>
+          )}
         </Button>
       </div>
     </section>
