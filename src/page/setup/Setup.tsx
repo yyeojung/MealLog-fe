@@ -104,7 +104,7 @@ const Setup = () => {
     Object.entries(FIELDS).reduce(
       (acc, [key, value]) => {
         let userValue;
-        if (isUserInfo && key === "birthDate") {
+        if (isUserInfo() && key === "birthDate") {
           const birthDateValue = user?.[key as FormKey];
           if (birthDateValue && !isNaN(new Date(birthDateValue).getTime())) {
             userValue = new Date(birthDateValue).toISOString().split("T")[0];
@@ -174,7 +174,7 @@ const Setup = () => {
   return (
     <section className="relative flex min-h-screen w-full flex-col bg-white px-6 py-10 pb-32">
       <h1 className="mb-12 text-2xl font-bold whitespace-pre-line">
-        {user === null ? "목표 칼로리를 설정하고\n시작해보세요!" : "회원정보를\n수정해주세요"}
+        {user?.status === "pending" ? "목표 칼로리를 설정하고\n시작해보세요!" : "회원정보를\n수정해주세요"}
       </h1>
       <form>
         <div className="flex flex-col gap-4">
@@ -221,7 +221,7 @@ const Setup = () => {
         </div>
         <div className="fixed right-0 bottom-0 left-0 bg-white p-6">
           <Button onClick={() => handleSubmit()} disabled={loading}>
-            {loading ? <LoadingDot /> : user === null ? "시작하기" : "수정하기"}
+            {loading ? <LoadingDot /> : user?.status === "pending" ? "시작하기" : "수정하기"}
           </Button>
         </div>
       </form>

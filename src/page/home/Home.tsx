@@ -37,10 +37,18 @@ const Home = () => {
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center">
             <Avatar size="m">
-              <img src={USER_INFO?.picture} alt="user" className="h-full w-full object-cover" width={48} height={48} />
+              <img
+                src={USER_INFO()?.picture}
+                alt="user"
+                className="h-full w-full object-cover"
+                width={48}
+                height={48}
+                loading="eager"
+                decoding="async"
+              />
             </Avatar>
             <div>
-              <h2 className="text-lg font-bold text-gray-800">{USER_INFO?.name}</h2>
+              <h2 className="text-lg font-bold text-gray-800">{USER_INFO()?.name}</h2>
               {/* <GradationBadge size="s">레벨 7 다이어트 실력자</GradationBadge> */}
             </div>
           </div>

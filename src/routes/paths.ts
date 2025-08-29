@@ -1,4 +1,4 @@
-import { isUserInfo } from "@/utils/token";
+import { USER_INFO } from "@/utils/token";
 
 const PATHS = {
   HOME: {
@@ -11,7 +11,7 @@ const PATHS = {
   },
   SETUP: {
     path: "/setup",
-    title: isUserInfo ? "정보 수정" : "정보 입력",
+    title: USER_INFO()?.status === "pending" ? "정보 입력" : "정보 수정",
   },
   LOGMEAL: {
     path: "/log-meal",
