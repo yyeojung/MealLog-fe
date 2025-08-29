@@ -24,8 +24,8 @@ const HomeDaily = () => {
 
   const mealList = useSelector((state: RootState) => state.meal.meals);
   const totals = useSelector((state: RootState) => state.meal.totals);
-  const remainingCalories = USER_INFO?.goalCalories - totals?.calories;
-  const progress = Math.round((totals?.calories / USER_INFO?.goalCalories) * 100);
+  const remainingCalories = USER_INFO()?.goalCalories - totals?.calories;
+  const progress = Math.round((totals?.calories / USER_INFO()?.goalCalories) * 100);
 
   const todayMealItems = mealList.map((meal) => {
     const totalCalories = meal.foods.reduce((sum, food) => sum + food.calories, 0);
@@ -56,7 +56,7 @@ const HomeDaily = () => {
               <span className="ml-2 text-xl text-gray-500">kcal</span>
             </div>
             <div className="text-sm text-gray-600">
-              목표 <strong>{addComma(USER_INFO?.goalCalories)} kcal</strong> 중&nbsp;
+              목표 <strong>{addComma(USER_INFO()?.goalCalories)} kcal</strong> 중&nbsp;
               <strong>{addComma(Math.abs(remainingCalories))} kcal</strong> {remainingCalories > 0 ? "남음" : "초과"}
             </div>
           </div>
@@ -65,7 +65,7 @@ const HomeDaily = () => {
           <ProgressBar
             progress={progress}
             color={progress > 120 ? "red" : "green"}
-            label={{ middle: `${progress}%`, max: `${addComma(USER_INFO?.goalCalories)} kcal` }}
+            label={{ middle: `${progress}%`, max: `${addComma(USER_INFO()?.goalCalories)} kcal` }}
           />
         </div>
         <div className="flex items-center justify-center">

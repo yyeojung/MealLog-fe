@@ -114,7 +114,7 @@ const RegisterMeal = () => {
     if (!calories) return alert("칼로리를 입력해주세요.");
 
     const mealPayload: MealPayload = {
-      userId: USER_INFO._id,
+      userId: USER_INFO()._id,
       date: isoDate,
       type: selectedMealTab,
       foods: [

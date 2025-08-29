@@ -25,9 +25,9 @@ const setUser = (user: User) => {
   sessionStorage.setItem("user", JSON.stringify(mergeUser));
 };
 
-const TOKEN = getToken();
-const isToken = !!TOKEN;
-const USER_INFO = getUser();
-const isUserInfo = USER_INFO !== null;
+// 함수형으로 변경하여 호출할 때마다 최신 값을 가져옴
+const isToken = () => !!getToken();
+const USER_INFO = () => getUser();
+const isUserInfo = () => USER_INFO() !== null;
 
-export { getToken, setToken, getUser, setUser, TOKEN, isToken, isUserInfo, USER_INFO };
+export { getToken, setToken, getUser, setUser, isToken, isUserInfo, USER_INFO };
