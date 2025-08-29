@@ -103,10 +103,17 @@ const Setup = () => {
   const [fields, setFields] = useState(
     Object.entries(FIELDS).reduce(
       (acc, [key, value]) => {
-        const userValue =
-          isUserInfo && key === "birthDate"
-            ? new Date(user?.[key as FormKey]).toISOString().split("T")[0]
-            : user?.[key as FormKey];
+        let userValue;
+        if (isUserInfo && key === "birthDate") {
+          const birthDateValue = user?.[key as FormKey];
+          if (birthDateValue && !isNaN(new Date(birthDateValue).getTime())) {
+            userValue = new Date(birthDateValue).toISOString().split("T")[0];
+          } else {
+            userValue = value.defaultValue;
+          }
+        } else {
+          userValue = user?.[key as FormKey];
+        }
         acc[key as FormKey] = userValue || value.defaultValue;
         return acc;
       },
