@@ -73,15 +73,15 @@ const HomeDaily = () => {
             <Badge size="m" color="yellow">
               조금만 더 분발하세요! 💪
             </Badge>
-          ) : progress >= 21 && progress < 50 ? (
+          ) : progress >= 20 && progress < 50 ? (
             <Badge size="m" color="green">
               조금만 힘내세요! 💪
             </Badge>
-          ) : progress >= 51 && progress < 80 ? (
+          ) : progress >= 50 && progress < 80 ? (
             <Badge size="m" color="blue">
               좋아요! 잘하고 있어요! 💪
             </Badge>
-          ) : progress >= 81 && progress < 100 ? (
+          ) : progress >= 80 && progress < 100 ? (
             <Badge size="m" color="purple">
               거의 다 도착했어요! 💪
             </Badge>
