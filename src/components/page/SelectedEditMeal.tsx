@@ -10,8 +10,9 @@ interface SelectedEditMealProps {
   meals: MealPayload[];
   foods: Food[];
   setFoods: React.Dispatch<React.SetStateAction<Food[]>>;
+  isNew?: boolean;
 }
-const SelectedEditMeal = ({ meals, foods, setFoods }: SelectedEditMealProps) => {
+const SelectedEditMeal = ({ meals, foods, setFoods, isNew }: SelectedEditMealProps) => {
   const nutrientItem: { key: NutrientKey; label: string }[] = [
     { key: "carbs", label: "탄수화물" },
     { key: "protein", label: "단백질" },
@@ -108,7 +109,7 @@ const SelectedEditMeal = ({ meals, foods, setFoods }: SelectedEditMealProps) => 
         {foods.map((food, index) => (
           <div className="mt-4 flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm" key={index}>
             <EditFoodForm
-              foods={food}
+              food={food}
               index={index}
               nutrientItem={nutrientItem}
               onFoodChange={handleFoodChange}
@@ -117,6 +118,7 @@ const SelectedEditMeal = ({ meals, foods, setFoods }: SelectedEditMealProps) => 
               onMinus={handleNumMinus}
             />
             <button
+              type="button"
               onClick={() => deleteFood(index)}
               className="flex h-10 min-w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-blue-50 hover:text-blue-700"
             >
@@ -124,6 +126,25 @@ const SelectedEditMeal = ({ meals, foods, setFoods }: SelectedEditMealProps) => 
             </button>
           </div>
         ))}
+        {isNew && (
+          <div className="mt-4 flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm">
+            <EditFoodForm
+              food={foods[foods.length]}
+              index={foods.length}
+              nutrientItem={nutrientItem}
+              onFoodChange={handleFoodChange}
+              onNutrientChange={handleNutrientChange}
+              onPlus={handleNumPlus}
+              onMinus={handleNumMinus}
+            />
+            <button
+              onClick={() => deleteFood(foods.length)}
+              className="flex h-10 min-w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-blue-50 hover:text-blue-700"
+            >
+              <Trash2 size={20} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
