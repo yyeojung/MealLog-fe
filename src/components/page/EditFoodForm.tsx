@@ -1,6 +1,6 @@
 import type { Food, Nutrients } from "@/types/Meal";
 import clsx from "clsx";
-import { Input, NumberStepper } from "../shared";
+import { Input, InputNumber, NumberStepper } from "../shared";
 import React from "react";
 
 interface NutrientItem {
@@ -9,7 +9,7 @@ interface NutrientItem {
 }
 
 interface FoodFormProps {
-  foods: Food;
+  food?: Food;
   index: number;
   nutrientItem: NutrientItem[];
   onFoodChange: (index: number, field: keyof Food, value: string | number) => void;
@@ -19,32 +19,36 @@ interface FoodFormProps {
 }
 
 const EditFoodForm = React.memo(
-  ({ foods, index, nutrientItem, onFoodChange, onNutrientChange, onPlus, onMinus }: FoodFormProps) => {
+  ({ food, index, nutrientItem, onFoodChange, onNutrientChange, onPlus, onMinus }: FoodFormProps) => {
     return (
       <div className="">
         <div className="mb-2 flex items-center justify-between">
           <div className="flex-1">
             {/* 음식 이름 */}
-            <Input
-              paddingSize="s"
-              className="w-40 font-medium text-gray-800"
-              value={foods.name}
-              onChange={(e) => onFoodChange(index, "name", e.target.value)}
-            />
+            <div className="flex gap-2">
+              <Input
+                paddingSize="s"
+                className="w-40 font-medium text-gray-800"
+                value={food?.name}
+                onChange={(e) => onFoodChange(index, "name", e.target.value)}
+              />
+              <span className="text-red-500">*</span>
+            </div>
             <div className="flex justify-between">
               <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
                 {/* 칼로리 */}
-                <Input
+                <InputNumber
+                  id="calories"
                   paddingSize="s"
                   className="w-20 font-medium text-gray-800"
-                  value={foods.calories}
-                  onChange={(e) => onFoodChange(index, "calories", Number(e.target.value))}
+                  value={food?.calories ?? 0}
+                  setValue={(val) => onFoodChange(index, "calories", val === "" ? 0 : val)}
                 />
-                kcal × {foods.num}개
+                kcal × {food?.num}개
               </div>
               <NumberStepper
-                key={foods.num}
-                value={foods.num}
+                key={food?.num}
+                value={food?.num ?? 1}
                 onPlus={() => onPlus(index)}
                 onMinus={() => onMinus(index)}
                 options={{
@@ -85,11 +89,12 @@ const EditFoodForm = React.memo(
               >
                 {nutrient.label}
               </span>
-              <Input
+              <InputNumber
+                id={nutrient.key}
                 paddingSize="s"
                 className="mt-2 font-medium"
-                value={foods.nutrients[nutrient.key] ?? "-"}
-                onChange={(e) => onNutrientChange(index, nutrient.key, Number(e.target.value))}
+                value={food?.nutrients[nutrient.key] ?? 0}
+                setValue={(val) => onNutrientChange(index, nutrient.key, val === "" ? 0 : val)}
                 suffix="g"
               />
             </div>
