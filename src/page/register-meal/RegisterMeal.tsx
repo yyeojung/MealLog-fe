@@ -1,4 +1,4 @@
-import { Cake, Moon, Save, Search, SquarePen, Sun, Sunrise, X } from "lucide-react";
+import { Cake, Moon, Save, Search, SquarePen, Sun, Sunrise } from "lucide-react";
 import { Button, ContentCard, Input, InputNumber, Label, OptionButtons, TextButton } from "@/components/shared";
 import { useEffect, useState } from "react";
 import CloudinaryUploadWidget from "@/page/register-meal/components/CloudinaryUploadWidget";
@@ -155,9 +155,9 @@ const RegisterMeal = () => {
     //이미지 업로드
     setPhoto(url);
   };
-  const handlePhotoClear = () => {
-    setPhoto("");
-  };
+  // const handlePhotoClear = () => {
+  //   setPhoto("");
+  // };
   const handleMemoChange = (value: string) => {
     setMemo(value);
   };
@@ -263,14 +263,14 @@ const RegisterMeal = () => {
             <h3 className="mb-4 text-lg font-semibold text-gray-800">사진 (선택)</h3>
             {photo ? (
               <div className="relative flex h-48 items-center justify-center border-2 border-dashed border-gray-300 p-2">
-                <button
+                {/* <button
                   type="button"
                   className="absolute top-2 right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white"
                   onClick={handlePhotoClear}
                 >
                   <X size={18} color="#3d3d3d" />
                   <span className="sr-only">이미지 삭제</span>
-                </button>
+                </button> */}
                 <img src={photo} className="h-full w-auto rounded-lg object-contain" />
               </div>
             ) : (
@@ -286,7 +286,7 @@ const RegisterMeal = () => {
               value={memo}
               onChange={(e) => handleMemoChange(e.target.value)}
             ></textarea>
-            <div className="mt-2 text-right text-xs text-gray-500">0/500</div>
+            <div className="mt-2 text-right text-xs text-gray-500">{memo.length}/500</div>
           </div>
           <Button type="submit" className="mt-6" size="m">
             <Save color="white" size={20} />

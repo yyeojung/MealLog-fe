@@ -62,8 +62,8 @@ const Detail = () => {
             <div>
               <Label>📆 기간</Label>
               <p>
-                {new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split("T")[0]} (
-                {new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString("ko-KR", {
+                {new Date(new Date().setDate(new Date().getDate() - 6)).toISOString().split("T")[0]} (
+                {new Date(new Date().setDate(new Date().getDate() - 6)).toLocaleDateString("ko-KR", {
                   weekday: "short",
                 })}
                 ) ~ {new Date().toISOString().split("T")[0]} (

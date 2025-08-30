@@ -7,6 +7,8 @@ import type { Food } from "@/types/Meal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import CloudinaryUploadWidget from "../register-meal/components/CloudinaryUploadWidget";
+import { X } from "lucide-react";
 
 interface AddFoodProps extends Food {
   isNew?: boolean;
@@ -18,7 +20,7 @@ const EditMeal = () => {
 
   const date = searchParams.get("date");
   const type = searchParams.get("type");
-  // const [photo, setPhoto] = useState<string>("");
+  const [photo, setPhoto] = useState<string>("");
   const [memo, setMemo] = useState<string>("");
   const [foods, setFoods] = useState<AddFoodProps[]>(meals[0]?.foods ?? []);
   const invalidFood = foods.find((item) => !item.name.trim());
@@ -28,6 +30,12 @@ const EditMeal = () => {
 
   const handleMemoChange = (value: string) => {
     setMemo(value);
+  };
+  const handlePhotoUpload = (url: string) => {
+    setPhoto(url);
+  };
+  const handlePhotoClear = () => {
+    setPhoto("");
   };
   const handleAddFoodClick = () => {
     if (invalidFood) {
@@ -75,7 +83,7 @@ const EditMeal = () => {
             mealId: meals[0]._id!,
             data: {
               ...meals[0],
-              // photo,
+              photo,
               memo,
               foods: cleanedFoods,
             },
@@ -97,11 +105,11 @@ const EditMeal = () => {
 
   useEffect(() => {
     if (meals.length === 0) {
-      // setPhoto("");
+      setPhoto("");
       setMemo("");
       return;
     }
-    // setPhoto(meals[0].photo ?? "");
+    setPhoto(meals[0].photo ?? "");
     setMemo(meals[0].memo ?? "");
   }, [meals]);
   return (
@@ -114,7 +122,21 @@ const EditMeal = () => {
           </Button>
           <div className="mt-6 rounded-xl border border-white/20 bg-white/90">
             <h3 className="mb-4 text-lg font-semibold text-gray-800">사진 (선택)</h3>
-            {/* {photo ? <img src={photo} alt="photo" /> : <div>업읍</div>} */}
+            {photo ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  className="absolute top-2 right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white"
+                  onClick={handlePhotoClear}
+                >
+                  <X size={18} color="#3d3d3d" />
+                  <span className="sr-only">이미지 삭제</span>
+                </button>
+                <img src={photo} alt="photo" />
+              </div>
+            ) : (
+              <CloudinaryUploadWidget uploadImage={handlePhotoUpload} />
+            )}
           </div>
           <div className="mt-6 rounded-xl border border-white/20 bg-white/90">
             <h3 className="mb-4 text-lg font-semibold text-gray-800">메모 (선택)</h3>
