@@ -63,7 +63,7 @@ const Home = () => {
         </div>
         <div className="text-center">
           <h1 className="mb-1 text-xl font-bold text-gray-800">다이어트 기록</h1>
-          <p className="text-sm text-gray-600">{today}</p>
+          {activeTab === "일일" ? <p className="text-sm text-gray-600">{today}</p> : ""}
         </div>
       </div>
       <div className="px-4 py-6">

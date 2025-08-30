@@ -172,7 +172,7 @@ const Setup = () => {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col bg-white px-6 py-10 pb-32">
+    <section className="relative flex min-h-screen w-full flex-col bg-white px-6 py-10">
       <h1 className="mb-12 text-2xl font-bold whitespace-pre-line">
         {user?.status === "pending" ? "목표 칼로리를 설정하고\n시작해보세요!" : "회원정보를\n수정해주세요"}
       </h1>
@@ -219,7 +219,7 @@ const Setup = () => {
             </div>
           ))}
         </div>
-        <div className="fixed right-0 bottom-0 left-0 bg-white p-6">
+        <div className="mt-10 bg-white">
           <Button onClick={() => handleSubmit()} disabled={loading}>
             {loading ? <LoadingDot /> : user?.status === "pending" ? "시작하기" : "수정하기"}
           </Button>

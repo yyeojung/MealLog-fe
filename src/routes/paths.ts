@@ -27,7 +27,7 @@ const PATHS = {
   },
   COMMUNITY: {
     path: "/community",
-    title: "커뮤니티",
+    title: "AI 채팅",
   },
   MYPAGE: {
     path: "/my-page",
