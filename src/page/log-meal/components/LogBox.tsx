@@ -1,4 +1,4 @@
-import { Label } from "@/components/shared";
+import { Button, Label } from "@/components/shared";
 import type { Food, MealPayload } from "@/types/Meal";
 import clsx from "clsx";
 import { Hamburger, Moon, SunMedium, Sunrise } from "lucide-react";
@@ -7,9 +7,11 @@ interface Props {
   tab: string;
   meal: MealPayload[];
   getCalories: number;
+  onRemoveClick?: (mealId: string) => void;
+  onEditClick?: (type: string) => void;
 }
 
-const LogBox = ({ tab, meal = [], getCalories = 0 }: Props) => {
+const LogBox = ({ tab, meal = [], getCalories = 0, onRemoveClick, onEditClick }: Props) => {
   return (
     <>
       {meal[0]?.foods?.length > 0 ? (
@@ -78,6 +80,14 @@ const LogBox = ({ tab, meal = [], getCalories = 0 }: Props) => {
           <i className="ri-add-line mr-1"></i>음식 추가하기
         </div>
       </a> */}
+            <div className="mt-4 flex gap-2">
+              <Button size="m" color="gray" onClick={() => onRemoveClick?.(meal[0]._id!)}>
+                삭제하기
+              </Button>
+              <Button size="m" onClick={() => onEditClick?.(meal[0].type)}>
+                수정하기
+              </Button>
+            </div>
           </>
         </div>
       ) : (

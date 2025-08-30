@@ -27,7 +27,7 @@ const EditModal = ({ open, setOpen, isoDate, selectedMealTab }: EditModalProps) 
   const handleSave = async () => {
     try {
       if (foods.length === 0) {
-        await dispatch(deleteMeal({ mealId: meals[0]._id }));
+        await dispatch(deleteMeal({ mealId: meals[0]._id! }));
       } else {
         await dispatch(
           updateMeal({

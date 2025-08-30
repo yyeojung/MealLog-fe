@@ -14,9 +14,20 @@ interface Props extends InputProps {
     max?: number;
     showErrorMessage?: boolean;
   };
+  paddingSize?: "s";
 }
 
-const InputNumber = ({ id, value, setValue, errors, setErrors, suffix, options = {}, ...props }: Props) => {
+const InputNumber = ({
+  id,
+  value,
+  setValue,
+  errors,
+  paddingSize,
+  setErrors,
+  suffix,
+  options = {},
+  ...props
+}: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const mergedOptions = {
@@ -71,6 +82,7 @@ const InputNumber = ({ id, value, setValue, errors, setErrors, suffix, options =
       value={value}
       onChange={handleChange}
       suffix={suffix}
+      paddingSize={paddingSize}
       errorMessage={mergedOptions.showErrorMessage ? errorMessage : ""}
       {...props}
     />
