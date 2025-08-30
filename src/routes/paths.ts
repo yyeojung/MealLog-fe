@@ -21,6 +21,10 @@ const PATHS = {
     path: "/register-meal",
     title: "식단 추가",
   },
+  EDITMEAL: {
+    path: "/edit-meal",
+    title: "식단 수정",
+  },
   DETAIL: {
     path: "/detail",
     title: "상세 분석",

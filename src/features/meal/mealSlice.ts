@@ -62,9 +62,9 @@ export const updateMeal= createAsyncThunk(
 
 export const deleteMeal = createAsyncThunk(
   "meal/deleteMeal",
-  async (query: { mealId?: string; foodId?: string }, { rejectWithValue }) => {
+  async ({mealId}: { mealId: string }, { rejectWithValue }) => {
     try {
-      const response = await api.delete("/meal", { params: query });
+      const response = await api.delete(`/meal/${mealId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.error || "Unknown error");

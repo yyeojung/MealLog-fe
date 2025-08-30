@@ -1,10 +1,11 @@
 import { Tabs, LoadingSection } from "@/components/shared";
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import LogBox from "./components/LogBox";
 import KcalBox from "./components/KcalBox";
 import { isValidMealType, type MealPayload, type MEALTYPE } from "@/types/Meal";
 import useApi from "@/hooks/useApi";
+import PATHS from "@/routes/paths";
 
 const LogMeal = () => {
   const { request, data, loading } = useApi();
@@ -15,6 +16,7 @@ const LogMeal = () => {
   const [activeTab, setActiveTab] = useState<MEALTYPE | "all">(
     MEAL_TYPE && isValidMealType(MEAL_TYPE) ? MEAL_TYPE : "all",
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSearchParams({ tab: activeTab, date: DATE });
@@ -74,6 +76,26 @@ const LogMeal = () => {
     return data.data.totals.byType[type]?.calories || 0;
   };
 
+  const handleMealRemove = async (mealId: string) => {
+    try {
+      const result = confirm("삭제하시겠습니까?");
+      if (!result) return;
+
+      await request({
+        url: `/meal/${mealId}`,
+        method: "delete",
+      });
+      await request({ url: `/meal?date=${DATE}`, method: "get" });
+      // await dispatch(deleteMeal({ mealId }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditClick = (type: string) => {
+    navigate(`${PATHS.EDITMEAL.path}?date=${DATE}&type=${type}`);
+  };
+
   useEffect(() => {
     const url = activeTab === "all" ? `/meal?date=${DATE}` : `/meal?date=${DATE}&type=${activeTab}`;
     request({
@@ -94,13 +116,43 @@ const LogMeal = () => {
 
           {activeTab === "all" ? (
             <>
-              <LogBox tab={getLabel("breakfast")} meal={getMeal("breakfast")} getCalories={getCalories("breakfast")} />
-              <LogBox tab={getLabel("lunch")} meal={getMeal("lunch")} getCalories={getCalories("lunch")} />
-              <LogBox tab={getLabel("dinner")} meal={getMeal("dinner")} getCalories={getCalories("dinner")} />
-              <LogBox tab={getLabel("snack")} meal={getMeal("snack")} getCalories={getCalories("snack")} />
+              <LogBox
+                tab={getLabel("breakfast")}
+                meal={getMeal("breakfast")}
+                getCalories={getCalories("breakfast")}
+                onRemoveClick={handleMealRemove}
+                onEditClick={handleEditClick}
+              />
+              <LogBox
+                tab={getLabel("lunch")}
+                meal={getMeal("lunch")}
+                getCalories={getCalories("lunch")}
+                onRemoveClick={handleMealRemove}
+                onEditClick={handleEditClick}
+              />
+              <LogBox
+                tab={getLabel("dinner")}
+                meal={getMeal("dinner")}
+                getCalories={getCalories("dinner")}
+                onRemoveClick={handleMealRemove}
+                onEditClick={handleEditClick}
+              />
+              <LogBox
+                tab={getLabel("snack")}
+                meal={getMeal("snack")}
+                getCalories={getCalories("snack")}
+                onRemoveClick={handleMealRemove}
+                onEditClick={handleEditClick}
+              />
             </>
           ) : (
-            <LogBox tab={getLabel(activeTab)} meal={getMeal(activeTab)} getCalories={getCalories(activeTab)} />
+            <LogBox
+              tab={getLabel(activeTab)}
+              meal={getMeal(activeTab)}
+              getCalories={getCalories(activeTab)}
+              onRemoveClick={handleMealRemove}
+              onEditClick={handleEditClick}
+            />
           )}
         </>
       )}

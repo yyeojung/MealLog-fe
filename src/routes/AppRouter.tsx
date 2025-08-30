@@ -10,6 +10,7 @@ import Login from "@/page/login/Login";
 import Setup from "@/page/setup/Setup";
 import LogMeal from "@/page/log-meal/LogMeal";
 import PrivateRoute from "./PrivateRoute";
+import EditMeal from "@/page/edit-meal/EditMeal";
 
 const AppRouter = () => {
   return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
         <Route path={PATHS.COMMUNITY.path} element={<Community />} />
         <Route path={PATHS.MYPAGE.path} element={<MyPage />} />
         <Route path={PATHS.REGISTERMEAL.path} element={<RegisterMeal />} />
+        <Route path={PATHS.EDITMEAL.path} element={<EditMeal />} />
         <Route path={PATHS.COMPONENTS.path} element={<Sample />} />
       </Route>
     </Routes>

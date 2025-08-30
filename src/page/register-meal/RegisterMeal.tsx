@@ -57,10 +57,11 @@ const RegisterMeal = () => {
     dispatch(getMyMeal({ date: isoDate, type: selectedMealTab }));
   }, [dispatch, selectedMealTab, isoDate]);
 
-  const { meals: mealList, totals } = useSelector((state: RootState) => state.meal);
+  const { meals, totals } = useSelector((state: RootState) => state.meal);
 
   const handleSelectedMealTab = (type: MEALTYPE) => {
     setSelectedMealTab(type);
+    resetForm();
     setMemo("");
     setPhoto("");
   };
@@ -111,7 +112,6 @@ const RegisterMeal = () => {
     // if (mode === "new") {
     //새 상품 만들기
     if (!name) return alert("음식 이름을 입력해주세요.");
-    if (!calories) return alert("칼로리를 입력해주세요.");
 
     const mealPayload: MealPayload = {
       userId: USER_INFO()._id,
@@ -166,6 +166,12 @@ const RegisterMeal = () => {
     setOpenModal(true);
   };
 
+  useEffect(() => {
+    if (meals.length > 0) {
+      setMemo(meals[0].memo ?? "");
+      setPhoto(meals[0].photo ?? "");
+    }
+  }, [meals]);
   return (
     <>
       <div className="px-4 py-6">
@@ -173,7 +179,7 @@ const RegisterMeal = () => {
           <ContentCard heading={<Label htmlFor="content">식사 분류</Label>}>
             <OptionButtons items={items} />
           </ContentCard>
-          {mealList.length > 0 && (
+          {meals.length > 0 && (
             <div className="mt-4 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-semibold text-gray-800">선택된 음식</h3>
@@ -183,7 +189,7 @@ const RegisterMeal = () => {
               </div>
               <TotalMeal calories={totals.calories} carbs={totals.carbs} protein={totals.protein} fat={totals.fat} />
               <div className="flex flex-col gap-3">
-                {mealList[0].foods.map((item) => (
+                {meals[0].foods.map((item) => (
                   <SelectedMeal
                     key={item._id}
                     name={item.name}
@@ -218,9 +224,7 @@ const RegisterMeal = () => {
           </div>
           {isCustomInput && (
             <div className="mt-6 rounded-xl border border-white/20 bg-white/90 p-4 shadow-lg backdrop-blur-sm">
-              <Label required htmlFor="calories">
-                칼로리
-              </Label>
+              <Label htmlFor="calories">칼로리</Label>
               <InputNumber
                 id="calories"
                 placeholder="칼로리를 입력해주세요."
@@ -293,7 +297,7 @@ const RegisterMeal = () => {
       <EditModal
         isoDate={isoDate}
         selectedMealTab={selectedMealTab}
-        mealList={mealList}
+        mealList={meals}
         open={openModal}
         setOpen={setOpenModal}
       />
