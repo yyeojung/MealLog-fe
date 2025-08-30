@@ -59,6 +59,17 @@ const Detail = () => {
         <div className="flex flex-col justify-center gap-2 rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm">
           <h3 className="mb-3 text-center text-xl font-bold">✨ AI 피드백 ✨</h3>
           <div className="flex flex-col gap-4">
+            <div>
+              <Label>📆 기간</Label>
+              <p>
+                {new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split("T")[0]} (
+                {new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString("ko-KR", {
+                  weekday: "short",
+                })}
+                ) ~ {new Date().toISOString().split("T")[0]} (
+                {new Date().toLocaleDateString("ko-KR", { weekday: "short" })})
+              </p>
+            </div>
             {Object.keys(feedback).map((key, index) => {
               const text = String(feedback[key as keyof Feedback]);
               const lines =
