@@ -55,6 +55,7 @@ const InputNumber = ({ id, value, setValue, errors, setErrors, suffix, options =
     }
 
     if (isNaN(value)) {
+      setValue("");
       return;
     }
 

@@ -22,7 +22,7 @@ const NavigationBar = () => {
       activeIcon: "bar-chart-fill.svg",
     },
     {
-      name: "커뮤니티",
+      name: "AI 채팅",
       href: PATHS.COMMUNITY.path,
       paths: [PATHS.COMMUNITY.path],
       icon: "team-line.svg",
