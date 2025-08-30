@@ -97,6 +97,7 @@ const LogMeal = () => {
               <LogBox tab={getLabel("breakfast")} meal={getMeal("breakfast")} getCalories={getCalories("breakfast")} />
               <LogBox tab={getLabel("lunch")} meal={getMeal("lunch")} getCalories={getCalories("lunch")} />
               <LogBox tab={getLabel("dinner")} meal={getMeal("dinner")} getCalories={getCalories("dinner")} />
+              <LogBox tab={getLabel("snack")} meal={getMeal("snack")} getCalories={getCalories("snack")} />
             </>
           ) : (
             <LogBox tab={getLabel(activeTab)} meal={getMeal(activeTab)} getCalories={getCalories(activeTab)} />

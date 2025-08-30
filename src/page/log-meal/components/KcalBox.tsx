@@ -75,12 +75,20 @@ const KcalBox = ({ tab, calories, date }: Props) => {
           <h3 className="mb-3 text-center text-xl font-bold">✨ AI 피드백 ✨</h3>
           <div className="flex flex-col gap-4">
             {Object.keys(feedback).map((key, index) => {
+              const text = String(feedback[key as keyof Feedback]);
+              const lines =
+                key === "nutritionBalance"
+                  ? text.split(/(?<=\.)/).filter((line) => line.trim() !== "")
+                  : text.split("-").filter((line) => line.trim() !== "");
+
               return (
                 <div key={index}>
                   <Label>
                     {key === "nutritionBalance" ? "⚖️ 영양 균형" : key === "goodPoints" ? "👍 잘한 점" : "🍀 개선점"}
                   </Label>
-                  <p>{feedback[key as keyof Feedback]}</p>
+                  {lines.map((line, i) => (
+                    <p key={i}>{line.trim()}</p>
+                  ))}
                 </div>
               );
             })}
